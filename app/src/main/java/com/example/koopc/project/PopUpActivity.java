@@ -45,9 +45,9 @@ public class PopUpActivity extends AppCompatActivity {
         buildingNameRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot ds : dataSnapshot.getChildren()){// 스냅 샷으로 빌딩의 정보를 받아 for문을 돌린다.
-                    if(ds.child("buildingLatitude").getValue().toString().equals(latitude) // 받은 위도와 경도를 디비의 경도들과 비교
-                            && ds.child("buildingLongitude").getValue().toString().equals(longitude)){
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {// 스냅 샷으로 빌딩의 정보를 받아 for문을 돌린다.
+                    if (ds.child("buildingLatitude").getValue().toString().equals(latitude) // 받은 위도와 경도를 디비의 경도들과 비교
+                            && ds.child("buildingLongitude").getValue().toString().equals(longitude)) {
                         buildingName = ds.child("buildingName").getValue().toString();
                         mBuildingNameView.setText(ds.child("buildingName").getValue().toString()); // 있으면 화면에 표시
                         mBuildingDescriptionView.setText(ds.child("buildingDescription").getValue().toString());
