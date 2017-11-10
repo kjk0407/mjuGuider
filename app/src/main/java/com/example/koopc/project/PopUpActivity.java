@@ -62,7 +62,7 @@ public class PopUpActivity extends AppCompatActivity {
             }
         });
 
-
+        //데이터 받기 (변경사항이 있을 경우 즉각 반응하도록 설계되어 있다.)
         eventNameRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
