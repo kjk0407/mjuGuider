@@ -51,6 +51,7 @@ public class PopUpActivity extends AppCompatActivity {
                         buildingName = ds.child("buildingName").getValue().toString();
                         mBuildingNameView.setText(ds.child("buildingName").getValue().toString()); // 있으면 화면에 표시
                         mBuildingDescriptionView.setText(ds.child("buildingDescription").getValue().toString());
+                        //ok
                     }
                 }
             }
