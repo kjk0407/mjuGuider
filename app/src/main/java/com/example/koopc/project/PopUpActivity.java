@@ -42,6 +42,7 @@ public class PopUpActivity extends AppCompatActivity {
         longitude = this.getIntent().getStringExtra("gpsLongitude"); // longitude 따로 받았다.
         String[] gpsData = this.getIntent().getStringArrayExtra("gps"); // 좌표값을 받아서 해당 좌표와 동일할 경우 DB 에서 받아온다.
 
+        //데이터 받기 (변경사항이 있을 경우 즉각 반응하도록 설계되어 있다.)
         buildingNameRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -51,7 +52,7 @@ public class PopUpActivity extends AppCompatActivity {
                         buildingName = ds.child("buildingName").getValue().toString();
                         mBuildingNameView.setText(ds.child("buildingName").getValue().toString()); // 있으면 화면에 표시
                         mBuildingDescriptionView.setText(ds.child("buildingDescription").getValue().toString());
-                    }
+                  }
                 }
             }
 
@@ -60,6 +61,8 @@ public class PopUpActivity extends AppCompatActivity {
 
             }
         });
+
+        //데이터 받기 (변경사항이 있을 경우 즉각 반응하도록 설계되어 있다.)
         eventNameRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
