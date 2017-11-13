@@ -35,9 +35,10 @@
         <activity
             android:name=".MapActivity"
             android:label="@string/title_activity_map" />
-        <activity android:name=".PopUpActivity"
-            android:theme="@style/Theme.AppCompat.Dialog">
-        </activity>
+        <activity
+            android:name=".PopUpActivity"
+            android:theme="@style/Theme.AppCompat.Dialog"></activity>
+        <activity android:name=".PopOnActivity"></activity>
     </application>
 
 </manifest>
