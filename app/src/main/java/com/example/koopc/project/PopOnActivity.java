@@ -34,6 +34,7 @@ public class PopOnActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_pop_on);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         mBuildingNameView = (TextView) findViewById(R.id.popup_bulidingName);

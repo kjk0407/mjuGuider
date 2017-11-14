@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="300dp"
+    android:layout_height="400dp"
+    tools:context="com.example.koopc.project.NavListActivity">
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="330dp"
+        android:id="@+id/navList"
+        android:textColor="#000000"></ListView>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="navCancel"
+        android:text="Cancel"
+        android:background="#ff7a00"
+        />
+</LinearLayout>

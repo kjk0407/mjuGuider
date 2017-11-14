@@ -1,6 +1,7 @@
 package com.example.koopc.project;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -24,6 +25,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
@@ -102,9 +105,10 @@ public class MapActivity extends FragmentActivity implements TMapGpsManager.onLo
                 Location.distanceBetween(tMapMarkerItem.latitude,tMapMarkerItem.longitude,
                         tcircle.getCenterPoint().getLatitude(),tcircle.getCenterPoint().getLongitude(),distance); // 이게 디스턴스에 거리를 넣어줌.
                 if(distance[0]<= tcircle.getRadius()){ // 반지름안에 있으면 있는거고
-                    Toast.makeText(mContext, "원안에 있다.", Toast.LENGTH_SHORT).show();
+//                    Intent intent = new Intent();
+//                    startActivity(intent);
                 }else{ // 없으면 없는거지 뭐
-                    Toast.makeText(mContext, "없다.", Toast.LENGTH_SHORT).show();
+//                    Intent intent = new Intent(this, PopOnActivity.class);
                 }
             }
         });
@@ -124,7 +128,7 @@ public class MapActivity extends FragmentActivity implements TMapGpsManager.onLo
             public void onCancelled(DatabaseError databaseError) {
             }
         });
-    }
+    } 
 
     // 맵이 제거되었을 경우 마커의 업데이트를 중단한다.
     @Override
@@ -157,28 +161,30 @@ public class MapActivity extends FragmentActivity implements TMapGpsManager.onLo
         for(DataSnapshot ds : snapshot.getChildren()){ // 위에서 받은 데이터 스냅샷 끝날때까지
             Double latitude = new Double(ds.child("buildingLatitude").getValue().toString()); // 위도? 받고
             Double longitude = new Double(ds.child("buildingLongitude").getValue().toString()); // 경도 받자
+            String buildingName = ds.child("buildingName").getValue().toString(); // 빌딩 이름
+            String buildingDescription = ds.child("buildingDescription").getValue().toString(); // 빌딩 설명
+
             TMapPoint point = new TMapPoint(latitude, longitude); // TmapPoint가 구글맵에서 LatLag?엿던가? 그거임
-            TMapMarkerItem item = new TMapMarkerItem(); // 마커 아이템 만듭니다.
+            markerSetting(buildingName,buildingDescription,point,bitmap,i_bitmap); // 이거 밑에서 써서 다시 쓰기 귀찮
+         }
+    }
 
-            item.setTMapPoint(point); // 받은 위도 경도에 세팅
-            item.setName(ds.child("buildingName").getValue().toString()); // 아이템이름을 빌딩이름으로
-            item.setVisible(item.VISIBLE); // 화면에 띄워주고
-            item.setIcon(bitmap); // 아이콘을 위에서 설정한걸로 설정
-
-            item.setCalloutTitle(ds.child("buildingName").getValue().toString()); // 누르면 뜨는 타이틀 설정
-            item.setCalloutSubTitle(ds.child("buildingDescription").getValue().toString()); // 마커 누르면 뜨는 설명 설정
-            item.setCanShowCallout(true); // 뭔지 모르는데 쓰래
-            //item.setAutoCalloutVisible(true); // 얘는 시작할때 클릭한 상태로 부를꺼냐 그거임
-
-            item.setCalloutRightButtonImage(i_bitmap); // 오른쪽 버튼 아이콘으로 적용
-
-            tMapView.addMarkerItem(ds.child("buildingName").getValue().toString(),item); // 아이디 빌딩이름으로 정하고 마커 맵에 추가
-        }
+    public void markerSetting(String buildingName,String buildingDescription ,TMapPoint point, Bitmap bitmap, Bitmap i_bitmap){
+        TMapMarkerItem item = new TMapMarkerItem(); // 마커 아이템 만듭니다.
+        item.setTMapPoint(point); // 받은 위도 경도에 세팅
+        item.setName(buildingName); // 아이템이름을 빌딩이름으로
+        item.setVisible(item.VISIBLE); // 화면에 띄워주고
+        item.setIcon(bitmap); // 아이콘을 위에서 설정한걸로 설정
+        item.setCalloutTitle(buildingName); // 누르면 뜨는 타이틀 설정
+        item.setCalloutSubTitle(buildingDescription); // 마커 누르면 뜨는 설명 설정
+        item.setCanShowCallout(true); // 뭔지 모르는데 쓰래
+        item.setAutoCalloutVisible(true); // 얘는 시작할때 클릭한 상태로 부를꺼냐 그거임
+        item.setCalloutRightButtonImage(i_bitmap); // 오른쪽 버튼 아이콘으로 적용
+        tMapView.addMarkerItem(buildingName,item); // 아이디 빌딩이름으로 정하고 마커 맵에 추가
     }
 
     @Override
     public void onLocationChange(Location location) { // gps바뀌면 --> 우리가 이동하면
-        final TMapData tmapData = new TMapData(); // 애가 경로같은거 관할하는 애임
 
         tMapView.setLocationPoint(location.getLongitude(), location.getLatitude()); // gps받고 현재 위치 카메라로 설정 --> 얘가 longitude, latitude임
         tMapView.removeAllTMapCircle(); // 이전에 넣었던 모든 똥그라미 지우고
@@ -191,18 +197,55 @@ public class MapActivity extends FragmentActivity implements TMapGpsManager.onLo
         tMapView.addTMapCircle("2",tcircle); // 아이디는 귀찮아서 2넣었음
 
         tMapView.removeAllTMapPolyLine(); // 모든 폴리라인 지우고
-        tmapData.findPathData(gps.getLocation(), new TMapPoint(37.222270, 127.185000),
-                new TMapData.FindPathDataListenerCallback() {
-                    @Override
-                    public void onFindPathData(TMapPolyLine PolyLine) {
-                        tMapView.removeTMapPath();
-                        tMapView.addTMapPath(PolyLine);
 
-                    }
-                }); // 실험할라고 넣은거임 나중에정리할 예정
     }
     //아직 리셋이랑 네브 구현 안함. 누르면 꺼짐
     public void resetButtonClick(View view){
-//        tMapView.remove
+        showMarkerPoint();
+        tMapView.removeTMapPath();
+    }
+
+    public void navClick(View view){
+        Intent intent = new Intent(this, NavListActivity.class);
+        startActivityForResult(intent, 0);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 0){
+            if(resultCode == Activity.RESULT_OK){
+                TMapData tmapData = new TMapData(); // 애가 경로같은거 관할하는 애임
+                tMapView.removeAllMarkerItem(); // 마커 많아서 짜증남
+
+                //네브리스트에서 받아옴 귀찮.
+                double latitude =  new Double(data.getStringExtra("navBuildingLatitude"));
+                double longitude = new Double(data.getStringExtra("navBuildingLongitude"));
+                TMapPoint point = new TMapPoint(latitude, longitude);
+                String buildingName = data.getStringExtra("navBuildingName");
+                String buildingDescription = data.getStringExtra("navBuildingDescription");
+
+                // 비트맵 설정들.
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inSampleSize = 2; // 마커 크기 2분의 1로 줄인다. 이거 그대로 두니까 ㅈ같이 커서 반으로 쭐였어
+                Bitmap bitmap = BitmapFactory.decodeResource(mContext.getResources(),R.mipmap.ic_launcher_round,options); // 애는 그냥 화면에 나오는 아이콘
+                Bitmap i_bitmap = BitmapFactory.decodeResource(mContext.getResources(),R.mipmap.ic_launcher,options); // 얘는 클릭하면 설명이랑 같이 오른쪽 버튼 그림
+
+                //마커 설정
+                markerSetting(buildingName,buildingDescription,point,bitmap,i_bitmap);
+
+                //경로 설정
+                tmapData.findPathData(gps.getLocation(), new TMapPoint(Double.valueOf(latitude),Double.valueOf(longitude)),
+                        new TMapData.FindPathDataListenerCallback() { // 티맵에서 패쓰 정보를 받으면 호출
+                            @Override
+                            public void onFindPathData(TMapPolyLine PolyLine) {
+                                tMapView.removeTMapPath(); // 새로 그려줌.
+                                tMapView.addTMapPath(PolyLine); // 패쓰 추가.
+                            }
+                        });
+            }else{
+                //캔쓸하면 그냥 내비둠.
+            }
+        }
     }
 }
