@@ -4,6 +4,8 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
@@ -29,31 +31,37 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.skp.Tmap.TMapCircle;
+import com.skp.Tmap.TMapData;
+import com.skp.Tmap.TMapGpsManager;
+import com.skp.Tmap.TMapMarkerItem;
+import com.skp.Tmap.TMapPoint;
+import com.skp.Tmap.TMapPolyLine;
+import com.skp.Tmap.TMapView;
 
-public class MapActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
-
-    private GoogleMap mMap;
-    private LocationManager lm;
-    private LocationListener ll;
+public class MapActivity extends FragmentActivity implements TMapGpsManager.onLocationChangedCallback{
+    TMapView tMapView; //tmap
     private Context mContext;
+    TMapGpsManager gps; // gps 매니저
+    TMapCircle tcircle; // 똥그라미!
+    static final String TMAP_KEY = "6f1d2856-9bbc-37fe-852b-5b38da058aea"; // 내 티맵 키
 
-    //좌표값 설정
-    private LatLng getMju2 = new LatLng(37.222270, 127.185000); // 명지대 제 2 공학관에 대한 좌표값
-    private LatLng getMju5 = new LatLng(37.222275,127.18629199999998); // 명지대 제 5 공학관에 대한 좌표값
-    private LatLng gpsMe = new LatLng(0,0); // 내 위치에 대한 마커
-    private Circle gpsCircle; // 내 위치에서의 범위 표시
-
-    //마커 설정
-    private Marker mju2; // 명지대 제 2 공학관 위치 마커
-    private Marker mju5; // 명지대 제 5 공학관 위치 마커
-    private Marker mePosition; // 나의 위치 마커
+    //fire base에서 빌딩들의 Latlag
+    DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference(); // 참조 데이터베이스 선언 ( 그냥 선언시 루트 베이스에서 찾는다. )
+    DatabaseReference buildingNameRef = mRootRef.child("building"); // 참조 데이터베이스 내 차일드 값 받기.
+    DataSnapshot snapshot; // snapshot을 전역?으로 돌림.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-
         mContext = getApplicationContext();
+
         // 안드로이드 버젼 확인
         String[] permissions = new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION};
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -70,14 +78,52 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
                 ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
             return;
 
-        //로케이션 서비스 받고 GPS 혹은 AP 포인트에서 수신할 것인지 확인. 바뀌는 시간은 1초, 1M 주기로 수신.
-        lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        ll = new MyLocationListner();
-        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, ll);
-        lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1, ll);
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        tMapView = (TMapView)findViewById(R.id.tmapView); // xml불러옴
+        tMapView.setSKPMapApiKey(TMAP_KEY); // 내 tmap키
+
+        tMapView.setLanguage(TMapView.LANGUAGE_KOREAN); // 티맵 언어. 5개정도 다른 언어 가능하더라
+        tMapView.setIconVisibility(true); // 아이콘을 보여라
+        tMapView.setZoomLevel(15); // 줌을 얼마나 할것인가?
+
+        tMapView.setTrackingMode(true); // 트래킹 모드래 뭔지 모름 근데 쓰래
+        tMapView.setSightVisible(true); // 시야각 보이는 거
+        gps = new TMapGpsManager(this); // gps매니저 부름
+        gps.setMinTime(100); // 갱신 시간
+        gps.setMinDistance(1); // 1미터 움직일 떄마다 갱신 좀 늘려야할까요?
+        gps.setProvider(gps.NETWORK_PROVIDER); // 네트워크를 통해 gps를 부름  --> 얘는 건물안에 있을 때 정확 // 자매품 gps provider도 있음
+        gps.setLocationCallback(); // 로케이션 콜백이라고 뭐냐 그거 그거임
+        gps.OpenGps(); // 지피에스를 엽니다.
+
+        // 그 마커 클릭하면 설명뜨고 옆에 버튼 누르면 이거 호출됨.  --> 지금 우리 앱은 안드로이드 표시로 되있음
+        tMapView.setOnCalloutRightButtonClickListener(new TMapView.OnCalloutRightButtonClickCallback() {
+            @Override
+            public void onCalloutRightButton(TMapMarkerItem tMapMarkerItem) {
+                float[] distance = new float[2]; // 서클 중심과 마커 로케이션간의 거리
+                Location.distanceBetween(tMapMarkerItem.latitude,tMapMarkerItem.longitude,
+                        tcircle.getCenterPoint().getLatitude(),tcircle.getCenterPoint().getLongitude(),distance); // 이게 디스턴스에 거리를 넣어줌.
+                if(distance[0]<= tcircle.getRadius()){ // 반지름안에 있으면 있는거고
+                    Toast.makeText(mContext, "원안에 있다.", Toast.LENGTH_SHORT).show();
+                }else{ // 없으면 없는거지 뭐
+                    Toast.makeText(mContext, "없다.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        buildingNameRef.addValueEventListener(new ValueEventListener() { // 빌딩 이름 레퍼른스 불러다가
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                snapshot = dataSnapshot; // 데이터 스냅샷이 우리가 쓰는 커서 느낌
+                showMarkerPoint();
+            } // 데이터 체인지 될때라기 보다는 그냥 실행할때 마커 보여줌
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
     }
 
     // 맵이 제거되었을 경우 마커의 업데이트를 중단한다.
@@ -99,110 +145,64 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
                 ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
             return;
-        lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        lm.removeUpdates(ll);
+        gps.getClass();
     }
 
+    //마커들을 띄워줍시다.
+    public void showMarkerPoint(){
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 2; // 마커 크기 2분의 1로 줄인다. 이거 그대로 두니까 ㅈ같이 커서 반으로 쭐였어
+        Bitmap bitmap = BitmapFactory.decodeResource(mContext.getResources(),R.mipmap.ic_launcher_round,options); // 애는 그냥 화면에 나오는 아이콘
+        Bitmap i_bitmap = BitmapFactory.decodeResource(mContext.getResources(),R.mipmap.ic_launcher,options); // 얘는 클릭하면 설명이랑 같이 오른쪽 버튼 그림
+        for(DataSnapshot ds : snapshot.getChildren()){ // 위에서 받은 데이터 스냅샷 끝날때까지
+            Double latitude = new Double(ds.child("buildingLatitude").getValue().toString()); // 위도? 받고
+            Double longitude = new Double(ds.child("buildingLongitude").getValue().toString()); // 경도 받자
+            TMapPoint point = new TMapPoint(latitude, longitude); // TmapPoint가 구글맵에서 LatLag?엿던가? 그거임
+            TMapMarkerItem item = new TMapMarkerItem(); // 마커 아이템 만듭니다.
 
-    //
-    private class MyLocationListner implements LocationListener {
-        @Override
-        public void onLocationChanged(Location location) {
-            Toast.makeText(mContext, location.getLatitude() + "," + location.getLongitude(), Toast.LENGTH_SHORT).show();
-            double latitude = location.getLatitude();
-            double longitude = location.getLongitude();
-            gpsMe = new LatLng(latitude, longitude);
+            item.setTMapPoint(point); // 받은 위도 경도에 세팅
+            item.setName(ds.child("buildingName").getValue().toString()); // 아이템이름을 빌딩이름으로
+            item.setVisible(item.VISIBLE); // 화면에 띄워주고
+            item.setIcon(bitmap); // 아이콘을 위에서 설정한걸로 설정
 
-            mePosition.setPosition(gpsMe); // 포지션도 이동
-            gpsCircle.setCenter(gpsMe);
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(gpsMe));
-        }
+            item.setCalloutTitle(ds.child("buildingName").getValue().toString()); // 누르면 뜨는 타이틀 설정
+            item.setCalloutSubTitle(ds.child("buildingDescription").getValue().toString()); // 마커 누르면 뜨는 설명 설정
+            item.setCanShowCallout(true); // 뭔지 모르는데 쓰래
+            //item.setAutoCalloutVisible(true); // 얘는 시작할때 클릭한 상태로 부를꺼냐 그거임
 
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
+            item.setCalloutRightButtonImage(i_bitmap); // 오른쪽 버튼 아이콘으로 적용
 
-        }
-
-        @Override
-        public void onProviderEnabled(String provider) {
-
-        }
-
-        @Override
-        public void onProviderDisabled(String provider) {
-
+            tMapView.addMarkerItem(ds.child("buildingName").getValue().toString(),item); // 아이디 빌딩이름으로 정하고 마커 맵에 추가
         }
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
+    public void onLocationChange(Location location) { // gps바뀌면 --> 우리가 이동하면
+        final TMapData tmapData = new TMapData(); // 애가 경로같은거 관할하는 애임
 
-        // Add a marker in Sydney and move the camera
+        tMapView.setLocationPoint(location.getLongitude(), location.getLatitude()); // gps받고 현재 위치 카메라로 설정 --> 얘가 longitude, latitude임
+        tMapView.removeAllTMapCircle(); // 이전에 넣었던 모든 똥그라미 지우고
+        tMapView.setZoomLevel(15); // 줌 땡기고
+        tcircle = new TMapCircle(); // 서클 만들고
+        tcircle.setCenterPoint(gps.getLocation()); // 똥그라미의 중심에는 우리가 있다.
+        tcircle.setRadius(30); // 30미터 반경
+        tcircle.setAreaColor(Color.parseColor("#880000ff")); // 컬러는 파랑이
+        tcircle.setAreaAlpha(4); // 투명도
+        tMapView.addTMapCircle("2",tcircle); // 아이디는 귀찮아서 2넣었음
 
-        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        UiSettings mapSetting;
-        mapSetting = mMap.getUiSettings();
-        mapSetting.setZoomControlsEnabled(true);
-        mapSetting.setCompassEnabled(true);
-        mapSetting.setIndoorLevelPickerEnabled(true);
-        mapSetting.setMapToolbarEnabled(true);
-        mapSetting.setScrollGesturesEnabled(true);
-        mapSetting.setTiltGesturesEnabled(true);
-        mapSetting.setRotateGesturesEnabled(true);
-        mapSetting.setRotateGesturesEnabled(true);
-        mapSetting.setMyLocationButtonEnabled(true);
+        tMapView.removeAllTMapPolyLine(); // 모든 폴리라인 지우고
+        tmapData.findPathData(gps.getLocation(), new TMapPoint(37.222270, 127.185000),
+                new TMapData.FindPathDataListenerCallback() {
+                    @Override
+                    public void onFindPathData(TMapPolyLine PolyLine) {
+                        tMapView.removeTMapPath();
+                        tMapView.addTMapPath(PolyLine);
 
-        mju2 = mMap.addMarker(new MarkerOptions()
-                .position(getMju2)
-                .title("title: 제 2 공학관")
-                .snippet("Snippet: 공학도의 건물"));
-        mju5 = mMap.addMarker(new MarkerOptions()
-                .position(getMju5)
-                .title("title: 제 5 공학관")
-                .snippet("Snippet: 공학도의 건물"));
-        mePosition = mMap.addMarker(new MarkerOptions()
-                .position(gpsMe)
-                .title("본인 위치")
-                .snippet("snippet: 님의 위치입니다."));
-
-        CircleOptions circle50m = new CircleOptions().center(gpsMe)
-                .radius(50)
-                .strokeWidth(0f)
-                .fillColor(Color.parseColor("#880000ff")); // 맵에 그려줄 원을 생성(반경 50m)
-        gpsCircle = mMap.addCircle(circle50m); // 맵에 넣어주고 넣어준 객체를 gpsCircle에 할당하여 이후에 값을 변경할 수 있도록 함.
-        mMap.setOnMarkerClickListener(this);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(getMju2,18));
-
+                    }
+                }); // 실험할라고 넣은거임 나중에정리할 예정
     }
-
-    @Override
-    // 마커를 클릭했을 경우 이벤트 발생
-    public boolean onMarkerClick(Marker marker) {
-        float[] distance = new float[2];
-        Location.distanceBetween(marker.getPosition().latitude, marker.getPosition().longitude,
-                gpsCircle.getCenter().latitude, gpsCircle.getCenter().longitude,distance); //  원안의 센터와 거리를 구함.
-
-        if(distance[0] <= gpsCircle.getRadius() ){ // 범위 안에 있는 경우
-            Intent intent = new Intent(this, PopUpActivity.class);
-            double position[] = new double[]{marker.getPosition().latitude, marker.getPosition().longitude};
-
-            intent.putExtra("gpsLatitude",String.valueOf(marker.getPosition().latitude));
-            intent.putExtra("gpsLongitude",String.valueOf(marker.getPosition().longitude));
-            startActivity(intent);
-        } else { //범위 안에 있지 않은 경우
-            Intent intent = new Intent(this, PopUpActivity.class);
-            double position[] = new double[]{marker.getPosition().latitude, marker.getPosition().longitude};
-
-            intent.putExtra("gpsLatitude",String.valueOf(marker.getPosition().latitude));
-            intent.putExtra("gpsLongitude",String.valueOf(marker.getPosition().longitude));
-            startActivity(intent);
-        }
-        return true;
-    }
-    public void buttonClick(View view){
-        Intent intent = new Intent(this, PopUpActivity.class);
-        intent.putExtra("data","됐다.");
-        startActivity(intent);
+    //아직 리셋이랑 네브 구현 안함. 누르면 꺼짐
+    public void resetButtonClick(View view){
+//        tMapView.remove
     }
 }
