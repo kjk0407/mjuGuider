@@ -84,12 +84,21 @@ public class MapActivity extends FragmentActivity implements TMapGpsManager.onLo
         tMapView = (TMapView)findViewById(R.id.tmapView); // xml불러옴
         tMapView.setSKPMapApiKey(TMAP_KEY); // 내 tmap키
 
+        tMapView.setLocationPoint(127.187541 ,37.22208); // gps받고 현재 위치 카메라로 설정 --> 얘가 longitude, latitude임
+        tcircle = new TMapCircle(); // 서클 만들고
+        tcircle.setCenterPoint(tMapView.getLocationPoint()); // 똥그라미의 중심에는 우리가 있다.
+        tcircle.setRadius(30); // 30미터 반경
+        tcircle.setAreaColor(Color.parseColor("#880000ff")); // 컬러는 파랑이
+        tcircle.setAreaAlpha(4); // 투명도
+        tMapView.addTMapCircle("2",tcircle); // 아이디는 귀찮아서 2넣었음
+
         tMapView.setLanguage(TMapView.LANGUAGE_KOREAN); // 티맵 언어. 5개정도 다른 언어 가능하더라
         tMapView.setIconVisibility(true); // 아이콘을 보여라
         tMapView.setZoomLevel(15); // 줌을 얼마나 할것인가?
 
         tMapView.setTrackingMode(true); // 트래킹 모드래 뭔지 모름 근데 쓰래
         tMapView.setSightVisible(true); // 시야각 보이는 거
+//        tMapView.setOnMarkerClickEvent(new TMapView.OnCalloutMarker2ClickCallback());
         gps = new TMapGpsManager(this); // gps매니저 부름
         gps.setMinTime(100); // 갱신 시간
         gps.setMinDistance(1); // 1미터 움직일 떄마다 갱신 좀 늘려야할까요?
@@ -102,13 +111,20 @@ public class MapActivity extends FragmentActivity implements TMapGpsManager.onLo
             @Override
             public void onCalloutRightButton(TMapMarkerItem tMapMarkerItem) {
                 float[] distance = new float[2]; // 서클 중심과 마커 로케이션간의 거리
+//                Toast.makeText(getApplicationContext(), String.valueOf(tMapMarkerItem.latitude) ,Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), String.valueOf(tcircle.latitude) ,Toast.LENGTH_SHORT).show();
                 Location.distanceBetween(tMapMarkerItem.latitude,tMapMarkerItem.longitude,
                         tcircle.getCenterPoint().getLatitude(),tcircle.getCenterPoint().getLongitude(),distance); // 이게 디스턴스에 거리를 넣어줌.
                 if(distance[0]<= tcircle.getRadius()){ // 반지름안에 있으면 있는거고
-//                    Intent intent = new Intent();
-//                    startActivity(intent);
+                    Intent intent = new Intent("intent_PopupAction");
+                    intent.putExtra("gpsLatitude", tMapMarkerItem.latitude);
+                    intent.putExtra("gpsLontitude", tMapMarkerItem.longitude);
+                    startActivity(intent);
                 }else{ // 없으면 없는거지 뭐
-//                    Intent intent = new Intent(this, PopOnActivity.class);
+                    Intent intent = new Intent("intent_PopupAction");
+                    intent.putExtra("gpsLatitude", tMapMarkerItem.latitude);
+                    intent.putExtra("gpsLontitude", tMapMarkerItem.longitude);
+                    startActivity(intent);
                 }
             }
         });
@@ -128,7 +144,9 @@ public class MapActivity extends FragmentActivity implements TMapGpsManager.onLo
             public void onCancelled(DatabaseError databaseError) {
             }
         });
-    } 
+    }
+
+
 
     // 맵이 제거되었을 경우 마커의 업데이트를 중단한다.
     @Override
@@ -169,6 +187,8 @@ public class MapActivity extends FragmentActivity implements TMapGpsManager.onLo
          }
     }
 
+    //마커 세팅 함수
+
     public void markerSetting(String buildingName,String buildingDescription ,TMapPoint point, Bitmap bitmap, Bitmap i_bitmap){
         TMapMarkerItem item = new TMapMarkerItem(); // 마커 아이템 만듭니다.
         item.setTMapPoint(point); // 받은 위도 경도에 세팅
@@ -183,6 +203,7 @@ public class MapActivity extends FragmentActivity implements TMapGpsManager.onLo
         tMapView.addMarkerItem(buildingName,item); // 아이디 빌딩이름으로 정하고 마커 맵에 추가
     }
 
+    // 이동 함수
     @Override
     public void onLocationChange(Location location) { // gps바뀌면 --> 우리가 이동하면
 
@@ -199,7 +220,7 @@ public class MapActivity extends FragmentActivity implements TMapGpsManager.onLo
         tMapView.removeAllTMapPolyLine(); // 모든 폴리라인 지우고
 
     }
-    //아직 리셋이랑 네브 구현 안함. 누르면 꺼짐
+
     public void resetButtonClick(View view){
         showMarkerPoint();
         tMapView.removeTMapPath();
@@ -210,6 +231,8 @@ public class MapActivity extends FragmentActivity implements TMapGpsManager.onLo
         startActivityForResult(intent, 0);
     }
 
+
+    // 네비게이션 기능
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

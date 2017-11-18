@@ -20,7 +20,7 @@ public class PopOnActivity extends AppCompatActivity {
 
     ImageView mBuildingImageView; // 건물 이미지 -- 추후 구현 예정
     TextView mBuildingNameView; // 건물 이름
-    TextView mBuildingDescriptionView; // 건물 약식 서술
+//    TextView mBuildingDescriptionView; // 건물 약식 서술
     TextView mEventView;//이벤트 약식 설명
     ListView mIconList; // 건물 아이콘 리스트 -- 추후 구현 예정
     String buildingName;
@@ -38,7 +38,7 @@ public class PopOnActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         mBuildingNameView = (TextView) findViewById(R.id.popup_bulidingName);
-        mBuildingDescriptionView = (TextView) findViewById(R.id.popup_buildingDescription);
+//        mBuildingDescriptionView = (TextView) findViewById(R.id.popup_buildingDescription);
         mEventView = (TextView)findViewById(R.id.popup_event);
         latitude = this.getIntent().getStringExtra("gpsLatitude");// 그냥 이거 latitude랑
         longitude = this.getIntent().getStringExtra("gpsLongitude"); // longitude 따로 받았다.
@@ -53,7 +53,7 @@ public class PopOnActivity extends AppCompatActivity {
                             && ds.child("buildingLongitude").getValue().toString().equals(longitude)) {
                         buildingName = ds.child("buildingName").getValue().toString();
                         mBuildingNameView.setText(ds.child("buildingName").getValue().toString()); // 있으면 화면에 표시
-                        mBuildingDescriptionView.setText(ds.child("buildingDescription").getValue().toString());
+//                        mBuildingDescriptionView.setText(ds.child("buildingDescription").getValue().toString());
                     }
                 }
             }

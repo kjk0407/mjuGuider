@@ -25,15 +25,16 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:weightSum="1">
 
         <!--  건물 이미지 뷰 -->
-        <ImageView
-            android:id="@+id/popup_imageView"
+        <ListView
+            android:id="@+id/Bullet_view"
             android:layout_margin="10dp"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:src="@drawable/logo"/>
+            android:layout_weight="0.85" />
 
         <LinearLayout
             android:orientation="vertical"
@@ -52,12 +53,6 @@
             <!--/>-->
 
             <!-- 건물 설명 관련 텍스트 (DB에서 받아올 것) -->
-            <TextView
-                android:layout_marginTop="10dp"
-                android:layout_width="120dp"
-                android:layout_height="70dp"
-                android:textColor="#000000"
-                android:id="@+id/popup_buildingDescription"/>
 
             <!-- 아이콘 리스트 (DB에서 받아올 것. 추후 생성 요망) -->
             <!--<ListView-->
@@ -72,15 +67,15 @@
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        >
+        android:weightSum="1">
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="264dp"
             android:layout_height="70dp"
             android:text="이벤트!"
             android:textColor="#000000"
             android:layout_margin="10dp"
             android:id="@+id/popup_event"
-            />
+            android:layout_weight="0.73" />
     </LinearLayout>>
 
     <!-- Notice -->
