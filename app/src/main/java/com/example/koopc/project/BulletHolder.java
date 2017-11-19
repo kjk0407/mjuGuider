@@ -11,5 +11,5 @@ import android.widget.TextView;
 public class BulletHolder {
     public ImageView icon;
     public TextView title;
-    public TextView content;
+    public TextView date;
 }

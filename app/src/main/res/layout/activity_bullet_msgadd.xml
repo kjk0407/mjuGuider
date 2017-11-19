@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="제목 : " />
+
+        <EditText
+            android:id="@+id/bullet_msgAddTitle"
+            android:layout_width="359dp"
+            android:layout_height="wrap_content"
+            android:hint="제목을 입력해주세요."/>
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/bullet_msgAddContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="내용을 입력해주세요,"
+        android:layout_weight="0.56"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="64dp">
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"></View>
+
+        <Button
+            android:onClick="bullet_msgAddButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="작성완료"/>
+
+        <Button
+            android:onClick="bullet_msgCancelButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="작성취소"/>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"></View>
+    </LinearLayout>
+</LinearLayout>

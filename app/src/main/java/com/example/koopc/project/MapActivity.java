@@ -111,21 +111,21 @@ public class MapActivity extends FragmentActivity implements TMapGpsManager.onLo
             @Override
             public void onCalloutRightButton(TMapMarkerItem tMapMarkerItem) {
                 float[] distance = new float[2]; // 서클 중심과 마커 로케이션간의 거리
-//                Toast.makeText(getApplicationContext(), String.valueOf(tMapMarkerItem.latitude) ,Toast.LENGTH_SHORT).show();
-//                Toast.makeText(getApplicationContext(), String.valueOf(tcircle.latitude) ,Toast.LENGTH_SHORT).show();
+
                 Location.distanceBetween(tMapMarkerItem.latitude,tMapMarkerItem.longitude,
                         tcircle.getCenterPoint().getLatitude(),tcircle.getCenterPoint().getLongitude(),distance); // 이게 디스턴스에 거리를 넣어줌.
+
+                Intent intent = new Intent("intent_PopupAction");
+                intent.putExtra("gpsLatitude", String.valueOf(tMapMarkerItem.latitude));
+                intent.putExtra("gpsLongitude", String.valueOf(tMapMarkerItem.longitude));
+
                 if(distance[0]<= tcircle.getRadius()){ // 반지름안에 있으면 있는거고
-                    Intent intent = new Intent("intent_PopupAction");
-                    intent.putExtra("gpsLatitude", tMapMarkerItem.latitude);
-                    intent.putExtra("gpsLontitude", tMapMarkerItem.longitude);
-                    startActivity(intent);
+                    intent.putExtra("popupType", "true");
                 }else{ // 없으면 없는거지 뭐
-                    Intent intent = new Intent("intent_PopupAction");
-                    intent.putExtra("gpsLatitude", tMapMarkerItem.latitude);
-                    intent.putExtra("gpsLontitude", tMapMarkerItem.longitude);
-                    startActivity(intent);
+                    intent.putExtra("popupType", "false");
                 }
+
+                startActivity(intent);
             }
         });
     }
