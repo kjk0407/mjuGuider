@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.koopc.project.schedule.Add_subjectActivity">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="과목정보"
+        style="@style/class_info_title"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/class_add_title" />
+
+
+    <TextView
+        android:id="@+id/class_add_classname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/class_add_title"
+        android:text="수강 명 : "
+        style="@style/class_info_title"
+        />
+
+    <EditText
+        android:id="@+id/class_add_classname_show"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/class_add_title"
+        android:layout_toRightOf="@+id/class_add_classname"
+        android:text=""
+        android:textSize="15dp"
+        android:gravity="bottom"
+        android:layout_alignBottom="@id/class_add_classname"
+        style="@style/class_info_contents"
+        />
+    <TextView
+        android:id="@+id/class_add_building"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/class_add_classname"
+        android:text="건물 명"
+        style="@style/class_info_title"
+        />
+    <Spinner
+        android:id="@+id/class_add_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/class_add_building"
+        android:layout_marginTop="32dp" />
+
+    <TextView
+        android:id="@+id/class_add_classnumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/class_add_spinner"
+        android:text="강의실 번호 : "
+        style="@style/class_info_title"
+        />
+
+    <EditText
+        android:id="@+id/class_add_classnumber_show"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/class_add_spinner"
+        android:layout_toRightOf="@+id/class_add_classnumber"
+        android:text=""
+        android:hint="Y0000"
+        android:textSize="15dp"
+        android:gravity="bottom"
+        android:layout_alignBottom="@id/class_add_classnumber"
+        style="@style/class_info_contents"
+        />
+
+    <TextView
+        android:id="@+id/class_add_professor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/class_add_classnumber"
+        android:text="교수님 : "
+        style="@style/class_info_title"
+        />
+
+    <EditText
+        android:id="@+id/class_add_professor_show"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/class_add_classnumber"
+        android:layout_toRightOf="@+id/class_add_professor"
+        android:text=""
+        android:textSize="15dp"
+        android:gravity="bottom"
+        android:layout_alignBottom="@id/class_add_professor"
+        style="@style/class_info_contents"
+        />
+
+
+
+
+    <TextView
+        android:id="@+id/class_add_color"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/class_add_professor"
+        android:text="과목색상"
+        style="@style/class_info_title"
+        />
+
+    <ToggleButton
+        android:text=""
+        android:layout_below="@+id/class_add_color"
+        android:layout_alignLeft="@+id/class_add_color"
+        android:layout_marginLeft="25dp"
+        style="@style/color_select"
+        android:background="#febfbf"
+        android:id="@+id/color_button1" />
+
+    <ToggleButton
+        android:text=""
+        android:layout_below="@+id/class_add_color"
+        android:layout_toRightOf="@+id/color_button1"
+        android:layout_marginLeft="10dp"
+        style="@style/color_select"
+        android:background="#fde5c0"
+        android:id="@+id/color_button2" />
+
+    <ToggleButton
+        android:text=""
+        android:layout_below="@+id/class_add_color"
+        android:layout_toRightOf="@+id/color_button2"
+        android:layout_marginLeft="10dp"
+        style="@style/color_select"
+        android:background="#effdc0"
+        android:id="@+id/color_button3" />
+
+    <ToggleButton
+        android:text=""
+        android:layout_below="@+id/class_add_color"
+        android:layout_toRightOf="@+id/color_button3"
+        android:layout_marginLeft="10dp"
+        style="@style/color_select"
+        android:background="#cafdc0"
+        android:id="@+id/color_button4" />
+
+    <ToggleButton
+        android:text=""
+        android:layout_below="@+id/class_add_color"
+        android:layout_toRightOf="@+id/color_button4"
+        android:layout_marginLeft="10dp"
+        style="@style/color_select"
+        android:background="#bcfdd5"
+        android:id="@+id/color_button5" />
+
+    <ToggleButton
+        android:text=""
+        android:layout_below="@+id/color_button1"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="10dp"
+        style="@style/color_select"
+        android:background="#bffbfc"
+        android:id="@+id/color_button6" />
+
+    <ToggleButton
+        android:text=""
+        android:layout_below="@+id/color_button1"
+        android:layout_toRightOf="@+id/color_button6"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        style="@style/color_select"
+        android:background="#bfd5fc"
+        android:id="@+id/color_button7" />
+
+    <ToggleButton
+        android:text=""
+        android:layout_below="@+id/color_button1"
+        android:layout_toRightOf="@+id/color_button7"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        style="@style/color_select"
+        android:background="#cabffc"
+        android:id="@+id/color_button8" />
+
+    <ToggleButton
+        android:text=""
+        android:layout_below="@+id/color_button1"
+        android:layout_toRightOf="@+id/color_button8"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        style="@style/color_select"
+        android:background="#f1bffc"
+        android:id="@+id/color_button9" />
+
+    <ToggleButton
+        android:text=""
+        android:layout_below="@+id/color_button1"
+        android:layout_toRightOf="@+id/color_button9"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        style="@style/color_select"
+        android:background="#fcbfe3"
+        android:id="@+id/color_button10" />
+
+
+    <Button
+        android:text="확인"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/class_info_btn"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="10dp"
+        android:id="@+id/class_add_ok" />
+
+    <Button
+        android:text="취소"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/class_info_btn"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@id/class_add_ok"
+        android:layout_marginRight="10dp"
+        android:id="@+id/class_add_cancle" />
+
+
+
+</RelativeLayout>

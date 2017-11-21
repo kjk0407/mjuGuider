@@ -17,9 +17,14 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.PermissionChecker;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.koopc.project.schedule.ScheduleActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -47,7 +52,7 @@ import com.skp.Tmap.TMapPoint;
 import com.skp.Tmap.TMapPolyLine;
 import com.skp.Tmap.TMapView;
 
-public class MapActivity extends FragmentActivity implements TMapGpsManager.onLocationChangedCallback{
+public class MapActivity extends AppCompatActivity implements TMapGpsManager.onLocationChangedCallback{
     TMapView tMapView; //tmap
     private Context mContext;
     TMapGpsManager gps; // gps 매니저
@@ -84,21 +89,12 @@ public class MapActivity extends FragmentActivity implements TMapGpsManager.onLo
         tMapView = (TMapView)findViewById(R.id.tmapView); // xml불러옴
         tMapView.setSKPMapApiKey(TMAP_KEY); // 내 tmap키
 
-        tMapView.setLocationPoint(127.187541 ,37.22208); // gps받고 현재 위치 카메라로 설정 --> 얘가 longitude, latitude임
-        tcircle = new TMapCircle(); // 서클 만들고
-        tcircle.setCenterPoint(tMapView.getLocationPoint()); // 똥그라미의 중심에는 우리가 있다.
-        tcircle.setRadius(30); // 30미터 반경
-        tcircle.setAreaColor(Color.parseColor("#880000ff")); // 컬러는 파랑이
-        tcircle.setAreaAlpha(4); // 투명도
-        tMapView.addTMapCircle("2",tcircle); // 아이디는 귀찮아서 2넣었음
-
         tMapView.setLanguage(TMapView.LANGUAGE_KOREAN); // 티맵 언어. 5개정도 다른 언어 가능하더라
         tMapView.setIconVisibility(true); // 아이콘을 보여라
         tMapView.setZoomLevel(15); // 줌을 얼마나 할것인가?
 
         tMapView.setTrackingMode(true); // 트래킹 모드래 뭔지 모름 근데 쓰래
         tMapView.setSightVisible(true); // 시야각 보이는 거
-//        tMapView.setOnMarkerClickEvent(new TMapView.OnCalloutMarker2ClickCallback());
         gps = new TMapGpsManager(this); // gps매니저 부름
         gps.setMinTime(100); // 갱신 시간
         gps.setMinDistance(1); // 1미터 움직일 떄마다 갱신 좀 늘려야할까요?
@@ -111,21 +107,14 @@ public class MapActivity extends FragmentActivity implements TMapGpsManager.onLo
             @Override
             public void onCalloutRightButton(TMapMarkerItem tMapMarkerItem) {
                 float[] distance = new float[2]; // 서클 중심과 마커 로케이션간의 거리
-
                 Location.distanceBetween(tMapMarkerItem.latitude,tMapMarkerItem.longitude,
                         tcircle.getCenterPoint().getLatitude(),tcircle.getCenterPoint().getLongitude(),distance); // 이게 디스턴스에 거리를 넣어줌.
-
-                Intent intent = new Intent("intent_PopupAction");
-                intent.putExtra("gpsLatitude", String.valueOf(tMapMarkerItem.latitude));
-                intent.putExtra("gpsLongitude", String.valueOf(tMapMarkerItem.longitude));
-
                 if(distance[0]<= tcircle.getRadius()){ // 반지름안에 있으면 있는거고
-                    intent.putExtra("popupType", "true");
+//                    Intent intent = new Intent();
+//                    startActivity(intent);
                 }else{ // 없으면 없는거지 뭐
-                    intent.putExtra("popupType", "false");
+//                    Intent intent = new Intent(this, PopOnActivity.class);
                 }
-
-                startActivity(intent);
             }
         });
     }
@@ -145,8 +134,6 @@ public class MapActivity extends FragmentActivity implements TMapGpsManager.onLo
             }
         });
     }
-
-
 
     // 맵이 제거되었을 경우 마커의 업데이트를 중단한다.
     @Override
@@ -170,6 +157,35 @@ public class MapActivity extends FragmentActivity implements TMapGpsManager.onLo
         gps.getClass();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.map_menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId() ) {
+            case R.id.NaveMenu:
+                Intent intent = new Intent(this, NavListActivity.class);
+                startActivityForResult(intent, 0);
+                return true;
+            case R.id.ResetMenu:
+                showMarkerPoint();
+                tMapView.removeTMapPath();
+                return true;
+            case R.id.ScheduleMenu:
+                Intent intent2 = new Intent(MapActivity.this,ScheduleActivity.class);
+                startActivity(intent2);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+    }
+
     //마커들을 띄워줍시다.
     public void showMarkerPoint(){
         BitmapFactory.Options options = new BitmapFactory.Options();
@@ -184,10 +200,8 @@ public class MapActivity extends FragmentActivity implements TMapGpsManager.onLo
 
             TMapPoint point = new TMapPoint(latitude, longitude); // TmapPoint가 구글맵에서 LatLag?엿던가? 그거임
             markerSetting(buildingName,buildingDescription,point,bitmap,i_bitmap); // 이거 밑에서 써서 다시 쓰기 귀찮
-         }
+        }
     }
-
-    //마커 세팅 함수
 
     public void markerSetting(String buildingName,String buildingDescription ,TMapPoint point, Bitmap bitmap, Bitmap i_bitmap){
         TMapMarkerItem item = new TMapMarkerItem(); // 마커 아이템 만듭니다.
@@ -203,7 +217,6 @@ public class MapActivity extends FragmentActivity implements TMapGpsManager.onLo
         tMapView.addMarkerItem(buildingName,item); // 아이디 빌딩이름으로 정하고 마커 맵에 추가
     }
 
-    // 이동 함수
     @Override
     public void onLocationChange(Location location) { // gps바뀌면 --> 우리가 이동하면
 
@@ -221,18 +234,6 @@ public class MapActivity extends FragmentActivity implements TMapGpsManager.onLo
 
     }
 
-    public void resetButtonClick(View view){
-        showMarkerPoint();
-        tMapView.removeTMapPath();
-    }
-
-    public void navClick(View view){
-        Intent intent = new Intent(this, NavListActivity.class);
-        startActivityForResult(intent, 0);
-    }
-
-
-    // 네비게이션 기능
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

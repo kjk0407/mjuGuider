@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.koopc.project.schedule.ScheduleUpdateActivity">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="과목정보"
+        style="@style/class_info_title"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/textView" />
+
+    <TextView
+        android:id="@+id/info_subject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView"
+        android:text="수강명 : "
+        style="@style/class_info_title"
+        />
+
+    <TextView
+        android:id="@+id/info_subject_show"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView"
+        android:layout_toRightOf="@+id/info_subject"
+        android:text="Subject Name"
+        android:layout_alignBottom="@id/info_subject"
+        style="@style/class_info_contents"
+        />
+
+    <TextView
+        android:id="@+id/info_professor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/info_subject"
+        android:text="교수님 : "
+        style="@style/class_info_title"
+        />
+
+    <TextView
+        android:id="@+id/info_professor_show"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/info_subject"
+        android:layout_toRightOf="@+id/info_subject"
+        android:text="Professor Name"
+        android:layout_alignBottom="@id/info_professor"
+        style="@style/class_info_contents"
+        />
+
+    <TextView
+        android:id="@+id/info_classroom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/info_professor"
+        android:text="강의실 : "
+        style="@style/class_info_title"
+        />
+
+    <TextView
+        android:id="@+id/info_classroom_show"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/info_professor"
+        android:layout_toRightOf="@+id/info_classroom"
+        android:text="ClassRoom"
+        android:layout_alignBottom="@id/info_classroom"
+        style="@style/class_info_contents"
+        />
+
+
+    <Button
+        android:text="편집"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/class_info_btn"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:id="@+id/info_edit" />
+
+    <Button
+        android:text="삭제"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/class_info_btn"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@id/info_edit"
+        android:layout_marginRight="10dp"
+        android:id="@+id/info_delete" />
+
+    <Button
+        android:text="닫기"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/class_info_btn"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@id/info_delete"
+        android:layout_marginRight="10dp"
+        android:id="@+id/info_close" />
+
+
+
+</RelativeLayout>

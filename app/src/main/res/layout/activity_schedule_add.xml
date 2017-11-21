@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.koopc.project.schedule.ScheduleAddActivity">
+    <GridView
+        android:id="@+id/schedule"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:numColumns="6"
+        />
+    <Button
+        android:text="추가"
+        style="@style/add_style"
+        android:id="@+id/add_btn"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        />
+
+    <Button
+        android:text="취소"
+        style="@style/add_style"
+        android:id="@+id/cancle_btn"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/add_btn"
+        android:layout_marginRight="10dp"
+        />
+</RelativeLayout>
