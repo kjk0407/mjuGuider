@@ -1,17 +1,15 @@
 package com.example.koopc.project;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,28 +21,74 @@ public class PopUpActivity extends AppCompatActivity {
     ImageView mBuildingImageView; // 건물 이미지 -- 추후 구현 예정
     TextView mBuildingNameView; // 건물 이름
     TextView mBuildingDescriptionView; // 건물 약식 서술
-    TextView mEventView;//이벤트 약식 설명
+    TextView mEventView;// 이벤트 약식 설명
     ListView mIconList; // 건물 아이콘 리스트 -- 추후 구현 예정
+    ImageView imageView; // 층간 이미지 출력
     String buildingName;
     String latitude;
     String longitude;
     DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference(); // 참조 데이터베이스 선언 ( 그냥 선언시 루트 베이스에서 찾는다. )
     DatabaseReference buildingNameRef = mRootRef.child("building"); // 참조 데이터베이스 내 차일드 값 받기.
-//    DatabaseReference eventNameRef = mRootRef.child("event"); // 참조 데이터베이스 내 차일드 값 받기.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //해결 방안 제시하기.
 //        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 //        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_pop_up);
 
         mBuildingNameView = (TextView) findViewById(R.id.popup_buildingName);
-//        mBuildingDescriptionView = (TextView) findViewById(R.id.popup_buildingDescription);
-//        mEventView = (TextView)findViewById(R.id.popup_event);
+        imageView = (ImageView)findViewById(R.id.popup_buildingImage);
 
         latitude = this.getIntent().getStringExtra("gpsLatitude");// 그냥 이거 latitude랑
         longitude = this.getIntent().getStringExtra("gpsLongitude"); // longitude 따로 받았다.
+
+        // 스피너 층수들을 배열에저장
+        String[] str = getResources().getStringArray(R.array.number);
+        Spinner spinner = (Spinner)findViewById(R.id.floor_button);
+        final TextView stv = (TextView)findViewById(R.id.floor_text);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            //스피너 층에 따른 층간사진 변화를 주기 위한 함수
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (parent.getItemAtPosition(position).toString()) {
+                    case "1층":
+                        imageView.setImageResource(R.mipmap.ic_launcher);
+                        stv.setText(parent.getItemAtPosition(position).toString());
+                        break;
+                    case "2층":
+                        imageView.setImageResource(R.drawable.university);
+                        stv.setText(parent.getItemAtPosition(position).toString());
+                        break;
+                    case "3층":
+                        imageView.setImageResource(R.drawable.university);
+                        stv.setText(parent.getItemAtPosition(position).toString());
+                        break;
+                    case "4층":
+                        imageView.setImageResource(R.drawable.university);
+                        stv.setText(parent.getItemAtPosition(position).toString());
+                        break;
+                    case "5층":
+                        imageView.setImageResource(R.drawable.university);
+                        stv.setText(parent.getItemAtPosition(position).toString());
+                        break;
+                    case "6층":
+                        imageView.setImageResource(R.drawable.university);
+                        stv.setText(parent.getItemAtPosition(position).toString());
+                        break;
+                    case "7층":
+                        imageView.setImageResource(R.drawable.university);
+                        stv.setText(parent.getItemAtPosition(position).toString());
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         //데이터 받기 (변경사항이 있을 경우 즉각 반응하도록 설계되어 있다.)
         buildingNameRef.addValueEventListener(new ValueEventListener() {
@@ -56,7 +100,55 @@ public class PopUpActivity extends AppCompatActivity {
                         buildingName = ds.child("buildingName").getValue().toString();
                         mBuildingNameView.setText(buildingName); // 있으면 화면에 표시
                         mBuildingNameView.setBackgroundResource(R.mipmap.ic_launcher); // 이미지 세팅
-//                        mBuildingDescriptionView.setText(ds.child("buildingDescription").getValue().toString());
+
+                        // buildingResID 받아서 비교해서 각자 건물에 맞는 사진 추가
+                        switch (ds.child("buildingResId").getValue().toString()){
+                            case "engineer_one":
+                                mBuildingNameView.setBackgroundResource(R.drawable.engineer_one);
+                                break;
+                            case "engineer_two":
+                                mBuildingNameView.setBackgroundResource(R.drawable.engineer_two);
+                                break;
+                            case "engineer_three":
+                                mBuildingNameView.setBackgroundResource(R.drawable.engineer_three);
+                                break;
+                            case "engineer_five":
+                                mBuildingNameView.setBackgroundResource(R.drawable.engineer_five);
+                                break;
+                            case "myoungjindang":
+                                mBuildingNameView.setBackgroundResource(R.drawable.myoungjindang);
+                                break;
+                            case "changjogwan":
+                                mBuildingNameView.setBackgroundResource(R.drawable.changjogwan);
+                                break;
+                            case "chaeyukgwan":
+                                mBuildingNameView.setBackgroundResource(R.drawable.chaeyukgwan);
+                                break;
+                            case "haksaenggwan":
+                                mBuildingNameView.setBackgroundResource(R.drawable.haksaenggwan);
+                                break;
+                            case "hambakgwan":
+                                mBuildingNameView.setBackgroundResource(R.drawable.hambakgwan);
+                                break;
+                            case "chasaedae":
+                                mBuildingNameView.setBackgroundResource(R.drawable.chasaedae);
+                                break;
+                            case "hangjungdong":
+                                mBuildingNameView.setBackgroundResource(R.drawable.hangjungdong);
+                                break;
+                            case "bangmok":
+                                mBuildingNameView.setBackgroundResource(R.drawable.bangmok);
+                                break;
+                            case "chaepul":
+                                mBuildingNameView.setBackgroundResource(R.drawable.chaepul);
+                                break;
+                            case "gongdongsilhum":
+                                mBuildingNameView.setBackgroundResource(R.drawable.gongdongsilhum);
+                                break;
+                            default:
+                                mBuildingNameView.setBackgroundResource(R.drawable.university);
+                                break;
+                        }
                   }
                 }
             }
@@ -66,24 +158,6 @@ public class PopUpActivity extends AppCompatActivity {
 
             }
         });
-
-//        //데이터 받기 (변경사항이 있을 경우 즉각 반응하도록 설계되어 있다.)
-//        eventNameRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                for (DataSnapshot ds : dataSnapshot.getChildren()){
-//                    if(ds.child("buildingName").getValue().toString().equals(buildingName)){
-//                        mEventView.setText(ds.child("eventName").getValue().toString() + " : "+
-//                                ds.child("eventDescription").getValue().toString());
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
     }
 
     @Override
@@ -135,7 +209,5 @@ public class PopUpActivity extends AppCompatActivity {
         intent.putExtra("buildingName", buildingName);
         startActivity(intent);
     }
-
-
 }
 
