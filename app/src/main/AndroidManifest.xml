@@ -52,7 +52,12 @@
             android:name=".NavListActivity"
             android:theme="@style/Theme.AppCompat.Dialog" />
         <activity android:name=".BulletActivity" />
-        <activity android:name=".BulletMsgActivity"></activity>
+        <activity android:name=".BulletMsgActivity" />
+        <activity android:name=".schedule.Add_subjectActivity" />
+        <activity android:name=".schedule.ScheduleActivity" />
+        <activity android:name=".schedule.ScheduleAddActivity" />
+        <activity android:name=".schedule.ScheduleUpdateActivity" />
+        <activity android:name=".schedule.ScheduleCheckActivity"></activity>
     </application>
 
 </manifest>

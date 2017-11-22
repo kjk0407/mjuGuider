@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/NaveMenu"
+        android:icon="@android:drawable/btn_plus"
+        android:title="건물 경로" />
+    <item
+        android:id="@+id/ResetMenu"
+        android:icon="@android:drawable/btn_plus"
+        android:title="경로 리셋" />
+    <item
+        android:id="@+id/ScheduleMenu"
+        android:icon="@android:drawable/btn_plus"
+        android:title="시간표" />
+</menu>
