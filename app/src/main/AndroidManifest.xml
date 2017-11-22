@@ -57,7 +57,13 @@
         <activity android:name=".schedule.ScheduleActivity" />
         <activity android:name=".schedule.ScheduleAddActivity" />
         <activity android:name=".schedule.ScheduleUpdateActivity" />
-        <activity android:name=".schedule.ScheduleCheckActivity"></activity>
+        <activity android:name=".schedule.ScheduleCheckActivity" />
+        <activity android:name=".VideoActivity" />
+
+        <service
+            android:name=".BGM"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

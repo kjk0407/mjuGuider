@@ -26,4 +26,14 @@
         android:textSize="20dp"
         android:onClick="main_pressStart"/>
 
+    <Button
+        android:id="@+id/main_tutorialButton"
+        android:layout_marginTop="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="튜토리얼"
+        android:textSize="20dp"
+        android:onClick="main_pressTutorial"/>
+
 </LinearLayout>
