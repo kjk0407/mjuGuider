@@ -3,4 +3,35 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="color1">#FF0000</color>
+    <color name="color2">#FFFF00</color>
+    <color name="color3">#00FF00</color>
+
+    <color name="color4">#0000FF</color>
+    <color name="color5">#20B2AA</color>
+    <color name="color6">#FAEBD7</color>
+    <color name="color7">#FF1493</color>
+    <color name="color0">#9400D3</color>
+    <color name="col1">#febfbf</color>
+    <color name="col2">#fde5c0</color>
+    <color name="col3">#effdc0</color>
+    <color name="col4">#cafdc0</color>
+    <color name="col5">#bffdd7</color>
+    <color name="col6">#bffbfc</color>
+    <color name="col7">#bfd5fc</color>
+    <color name="col8">#cabffc</color>
+    <color name="col9">#f1bffc</color>
+    <color name="col10">#fcbfe3</color>
+
+
+    <color name="col1d">#b38787</color>
+    <color name="col2d">#b3a288</color>
+    <color name="col3d">#a7b186</color>
+    <color name="col4d">#8db186</color>
+    <color name="col5d">#83b195</color>
+    <color name="col6d">#85afb0</color>
+    <color name="col7d">#8595b0</color>
+    <color name="col8d">#8d85b0</color>
+    <color name="col9d">#a885b0</color>
+    <color name="col10d">#b0859e</color>
 </resources>

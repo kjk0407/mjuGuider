@@ -12,7 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
-import com.example.koopc.project.FeedReaderDbHelper;
+import com.example.koopc.project.DB.FeedReaderDbHelper;
 import com.example.koopc.project.R;
 
 public class ScheduleActivity extends AppCompatActivity {

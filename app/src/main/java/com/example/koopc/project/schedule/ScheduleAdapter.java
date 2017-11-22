@@ -12,7 +12,7 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.TextView;
 
-import com.example.koopc.project.FeedReaderDbHelper;
+import com.example.koopc.project.DB.FeedReaderDbHelper;
 
 /**
  * Created by vkdlv on 2017-11-22.
@@ -101,7 +101,7 @@ public class ScheduleAdapter extends BaseAdapter {
                         ((TextView) v).setHeight(250);
                         ((TextView)v).setGravity(Gravity.CENTER);
 
-                        s = s + mCursor.getString(2) +mCursor.getString(6); // 각 디비의 강좌 이름을 받는다.
+                        s = s + mCursor.getString(2) +mCursor.getString(7); // 각 디비의 강좌 이름을 받는다.
                         v.setBackgroundColor(Color.parseColor(mCursor.getString(5))); // 디비 안에 색상 디비도 존재
                         ((TextView) v).setText(s); // 텍스트뷰에 넣기
                         if(mCursor.moveToNext()){ // 다음으로 이동  --> 있으면 그냥 flag1

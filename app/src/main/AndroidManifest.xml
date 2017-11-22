@@ -56,7 +56,8 @@
         <activity android:name=".schedule.Add_subjectActivity" />
         <activity android:name=".schedule.ScheduleActivity" />
         <activity android:name=".schedule.ScheduleAddActivity" />
-        <activity android:name=".schedule.ScheduleUpdateActivity"></activity>
+        <activity android:name=".schedule.ScheduleUpdateActivity" />
+        <activity android:name=".schedule.ScheduleCheckActivity"></activity>
     </application>
 
 </manifest>

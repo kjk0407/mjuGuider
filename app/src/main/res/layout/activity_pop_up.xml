@@ -73,6 +73,7 @@
                 android:id="@+id/popup_timeTableButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="schedulePress"
                 android:text="시간표" />
 
             <Button

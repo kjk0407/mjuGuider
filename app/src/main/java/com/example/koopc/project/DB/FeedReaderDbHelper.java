@@ -1,4 +1,4 @@
-package com.example.koopc.project;
+package com.example.koopc.project.DB;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

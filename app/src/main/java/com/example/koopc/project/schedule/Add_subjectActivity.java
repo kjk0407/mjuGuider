@@ -14,7 +14,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.ToggleButton;
 
-import com.example.koopc.project.FeedReaderDbHelper;
+import com.example.koopc.project.DB.FeedReaderDbHelper;
 import com.example.koopc.project.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

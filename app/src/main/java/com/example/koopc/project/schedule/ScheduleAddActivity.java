@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 
-import com.example.koopc.project.FeedReaderDbHelper;
+import com.example.koopc.project.DB.FeedReaderDbHelper;
 import com.example.koopc.project.R;
 
 import java.util.ArrayList;

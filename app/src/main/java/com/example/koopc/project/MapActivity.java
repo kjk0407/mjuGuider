@@ -110,10 +110,19 @@ public class MapActivity extends AppCompatActivity implements TMapGpsManager.onL
                 Location.distanceBetween(tMapMarkerItem.latitude,tMapMarkerItem.longitude,
                         tcircle.getCenterPoint().getLatitude(),tcircle.getCenterPoint().getLongitude(),distance); // 이게 디스턴스에 거리를 넣어줌.
                 if(distance[0]<= tcircle.getRadius()){ // 반지름안에 있으면 있는거고
-//                    Intent intent = new Intent();
-//                    startActivity(intent);
+                    Intent intent = new Intent("intent_PopupAction");
+                    intent.putExtra("gpsLatitude", tMapMarkerItem.latitude);
+                    intent.putExtra("gpsLontitude", tMapMarkerItem.longitude);
+                    intent.putExtra("map_buildingName",tMapMarkerItem.getCalloutTitle());
+                    startActivity(intent);
+                    intent.putExtra("popupType", "true");
                 }else{ // 없으면 없는거지 뭐
-//                    Intent intent = new Intent(this, PopOnActivity.class);
+                    Intent intent = new Intent("intent_PopupAction");
+                    intent.putExtra("gpsLatitude", tMapMarkerItem.latitude);
+                    intent.putExtra("gpsLontitude", tMapMarkerItem.longitude);
+                    intent.putExtra("map_buildingName",tMapMarkerItem.getCalloutTitle());
+                    startActivity(intent);
+                    intent.putExtra("popupType", "false");
                 }
             }
         });

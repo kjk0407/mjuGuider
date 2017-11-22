@@ -1,4 +1,4 @@
-package com.example.koopc.project;
+package com.example.koopc.project.DB;
 
 import android.provider.BaseColumns;
 

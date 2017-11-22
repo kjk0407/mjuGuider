@@ -1,18 +1,15 @@
 package com.example.koopc.project;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.koopc.project.schedule.ScheduleCheckActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,6 +25,7 @@ public class PopUpActivity extends AppCompatActivity {
     String buildingName;
     String latitude;
     String longitude;
+    String checkBuilding;
     DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference(); // 참조 데이터베이스 선언 ( 그냥 선언시 루트 베이스에서 찾는다. )
     DatabaseReference buildingNameRef = mRootRef.child("building"); // 참조 데이터베이스 내 차일드 값 받기.
 //    DatabaseReference eventNameRef = mRootRef.child("event"); // 참조 데이터베이스 내 차일드 값 받기.
@@ -45,7 +43,7 @@ public class PopUpActivity extends AppCompatActivity {
 
         latitude = this.getIntent().getStringExtra("gpsLatitude");// 그냥 이거 latitude랑
         longitude = this.getIntent().getStringExtra("gpsLongitude"); // longitude 따로 받았다.
-
+        checkBuilding = this.getIntent().getStringExtra("map_buildingName");
         //데이터 받기 (변경사항이 있을 경우 즉각 반응하도록 설계되어 있다.)
         buildingNameRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -136,6 +134,11 @@ public class PopUpActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void schedulePress(View view){
+        Intent intent = new Intent(this, ScheduleCheckActivity.class);
+        intent.putExtra("building_check",checkBuilding);
+        startActivity(intent);
+    }
 
 }
 
