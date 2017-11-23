@@ -1,4 +1,4 @@
-package com.example.koopc.project;
+package com.example.koopc.project.bulletIn;
 
 /**
  * Created by kooPC on 2017-11-17.

@@ -7,10 +7,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.koopc.project.bulletIn.BulletActivity;
+import com.example.koopc.project.event.EventActivity;
+import com.example.koopc.project.schedule.ScheduleCheckActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -18,31 +20,31 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class PopUpActivity extends AppCompatActivity {
-    ImageView mBuildingImageView; // 건물 이미지 -- 추후 구현 예정
     TextView mBuildingNameView; // 건물 이름
-    TextView mBuildingDescriptionView; // 건물 약식 서술
-    TextView mEventView;// 이벤트 약식 설명
-    ListView mIconList; // 건물 아이콘 리스트 -- 추후 구현 예정
-    ImageView imageView; // 층간 이미지 출력
+    ImageView imageView; // 이미지 뷰
     String buildingName;
     String latitude;
     String longitude;
+    String checkBuilding;
     DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference(); // 참조 데이터베이스 선언 ( 그냥 선언시 루트 베이스에서 찾는다. )
     DatabaseReference buildingNameRef = mRootRef.child("building"); // 참조 데이터베이스 내 차일드 값 받기.
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //해결 방안 제시하기.
 //        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 //        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_pop_up);
 
         mBuildingNameView = (TextView) findViewById(R.id.popup_buildingName);
         imageView = (ImageView)findViewById(R.id.popup_buildingImage);
+//        mBuildingDescriptionView = (TextView) findViewById(R.id.popup_buildingDescription);
+//        mEventView = (TextView)findViewById(R.id.popup_event);
 
         latitude = this.getIntent().getStringExtra("gpsLatitude");// 그냥 이거 latitude랑
         longitude = this.getIntent().getStringExtra("gpsLongitude"); // longitude 따로 받았다.
+        checkBuilding = this.getIntent().getStringExtra("map_buildingName");
 
         // 스피너 층수들을 배열에저장
         String[] str = getResources().getStringArray(R.array.number);
@@ -100,9 +102,10 @@ public class PopUpActivity extends AppCompatActivity {
                         buildingName = ds.child("buildingName").getValue().toString();
                         mBuildingNameView.setText(buildingName); // 있으면 화면에 표시
                         mBuildingNameView.setBackgroundResource(R.mipmap.ic_launcher); // 이미지 세팅
+//                        mBuildingDescriptionView.setText(ds.child("buildingDescription").getValue().toString());
 
                         // buildingResID 받아서 비교해서 각자 건물에 맞는 사진 추가
-                        switch (ds.child("buildingResId").getValue().toString()){
+                        switch (ds.child("buildingResId").getValue().toString()) {
                             case "engineer_one":
                                 mBuildingNameView.setBackgroundResource(R.drawable.engineer_one);
                                 break;
@@ -149,7 +152,7 @@ public class PopUpActivity extends AppCompatActivity {
                                 mBuildingNameView.setBackgroundResource(R.drawable.university);
                                 break;
                         }
-                  }
+                    }
                 }
             }
 
@@ -209,5 +212,16 @@ public class PopUpActivity extends AppCompatActivity {
         intent.putExtra("buildingName", buildingName);
         startActivity(intent);
     }
-}
 
+    public void schedulePress(View view){
+        Intent intent = new Intent(this, ScheduleCheckActivity.class);
+        intent.putExtra("building_check",checkBuilding);
+        startActivity(intent);
+    }
+
+    public void eventPress(View view){
+        Intent intent = new Intent(this, EventActivity.class);
+        intent.putExtra("buildingName", buildingName);
+        startActivity(intent);
+    }
+}

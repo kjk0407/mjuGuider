@@ -1,13 +1,14 @@
-package com.example.koopc.project;
+package com.example.koopc.project.bulletIn;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.example.koopc.project.R;
 
 public class BulletMsgActivity extends AppCompatActivity {
     private TextView nameView;

@@ -1,4 +1,4 @@
-package com.example.koopc.project;
+package com.example.koopc.project.bulletIn;
 
 import android.widget.ImageView;
 import android.widget.TextView;

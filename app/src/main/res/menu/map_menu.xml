@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/GotoMjuMenu"
+        android:icon="@android:drawable/btn_plus"
+        android:title="명지대로 이동" />
+    <item
         android:id="@+id/NaveMenu"
         android:icon="@android:drawable/btn_plus"
         android:title="건물 경로" />
