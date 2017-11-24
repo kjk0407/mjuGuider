@@ -15,6 +15,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent intent = new Intent(this, BGM.class);
+        startService(intent);
     }
 
     public void main_pressStart(View view) {
@@ -25,5 +28,9 @@ public class MainActivity extends AppCompatActivity {
         boolean isintentSafe = activites.size() > 0;
 
         if(isintentSafe) startActivity(intent);
+    }
+    public void main_pressTutorial(View view){
+        Intent intent = new Intent(this,VideoActivity.class);
+        startActivity(intent);
     }
 }

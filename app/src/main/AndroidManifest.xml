@@ -14,8 +14,6 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.READ_OWNERDATA" />
     <uses-permission android:name="android.permission.WRITE_OWNER_DATA" />
-    <!--<uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
-    <!--<uses-permission android:name="android.permission.SEND_SMS" />-->
 
     <application
         android:allowBackup="true"
@@ -53,14 +51,13 @@
         <activity
             android:name=".NavListActivity"
             android:theme="@style/Theme.AppCompat.Dialog" />
-        <activity android:name=".bulletIn.BulletActivity" />
-        <activity android:name=".bulletIn.BulletMsgActivity" />
+        <activity android:name=".BulletActivity" />
+        <activity android:name=".BulletMsgActivity" />
         <activity android:name=".schedule.Add_subjectActivity" />
         <activity android:name=".schedule.ScheduleActivity" />
         <activity android:name=".schedule.ScheduleAddActivity" />
         <activity android:name=".schedule.ScheduleUpdateActivity" />
-        <activity android:name=".schedule.ScheduleCheckActivity" />
-        <activity android:name=".event.EventActivity"></activity>
+        <activity android:name=".schedule.ScheduleCheckActivity"></activity>
     </application>
 
 </manifest>
