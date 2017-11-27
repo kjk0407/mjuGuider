@@ -63,7 +63,9 @@
         <service
             android:name=".BGM"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+
+        <activity android:name=".schedule.OptionActivity" />
     </application>
 
 </manifest>

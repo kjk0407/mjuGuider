@@ -12,4 +12,8 @@
         android:id="@+id/ScheduleMenu"
         android:icon="@android:drawable/btn_plus"
         android:title="시간표" />
+    <item
+        android:id="@+id/OptionMenu"
+        android:icon="@android:drawable/btn_plus"
+        android:title="음악 끄기" />
 </menu>

@@ -2,8 +2,10 @@ package com.example.koopc.project;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -22,6 +24,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.koopc.project.schedule.ScheduleActivity;
@@ -171,6 +174,13 @@ public class MapActivity extends AppCompatActivity implements TMapGpsManager.onL
     {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.map_menu,menu);
+        SharedPreferences opt = getSharedPreferences("Option",MODE_PRIVATE);
+        int isMute = opt.getInt("isMute",0);
+        if(isMute == 0) {
+            menu.getItem(3).setTitle("음악 끄기");
+        }else{
+            menu.getItem(3).setTitle("음악 켜기");
+        }
         return true;
     }
 
@@ -188,6 +198,23 @@ public class MapActivity extends AppCompatActivity implements TMapGpsManager.onL
             case R.id.ScheduleMenu:
                 Intent intent2 = new Intent(MapActivity.this,ScheduleActivity.class);
                 startActivity(intent2);
+                return true;
+            case R.id.OptionMenu:
+                SharedPreferences opt = getSharedPreferences("Option",MODE_PRIVATE);
+                SharedPreferences.Editor editor = opt.edit();
+                int isMute = opt.getInt("isMute",0);
+                if(isMute == 1){
+                    editor.putInt("isMute",0);
+                    item.setTitle("음악 켜기");
+                    Intent mute = new Intent(this, BGM.class);
+                    stopService(mute);
+                }else{
+                    editor.putInt("isMute",1);
+                    item.setTitle("음악 끄기");
+                    Intent mute = new Intent(this, BGM.class);
+                    startService(mute);
+                }
+                editor.commit();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

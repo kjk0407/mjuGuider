@@ -1,6 +1,7 @@
 package com.example.koopc.project;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.support.v7.app.AppCompatActivity;
@@ -16,8 +17,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent intent = new Intent(this, BGM.class);
-        startService(intent);
+        SharedPreferences opt = getSharedPreferences("Option",MODE_PRIVATE);
+        int isMute = opt.getInt("isMute",0);
+        if(isMute == 0) {
+            Intent intent = new Intent(this, BGM.class);
+            startService(intent);
+        }
     }
 
     public void main_pressStart(View view) {
@@ -32,5 +37,13 @@ public class MainActivity extends AppCompatActivity {
     public void main_pressTutorial(View view){
         Intent intent = new Intent(this,VideoActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        Intent intent = new Intent(this, BGM.class);
+        stopService(intent);
     }
 }
