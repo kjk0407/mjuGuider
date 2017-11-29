@@ -145,6 +145,16 @@ public class MapActivity extends AppCompatActivity implements TMapGpsManager.onL
             public void onCancelled(DatabaseError databaseError) {
             }
         });
+        SharedPreferences opt = getSharedPreferences("Option",MODE_PRIVATE);
+        int isMute = opt.getInt("isMute",0);
+        MenuItem menu = (MenuItem)findViewById(R.id.OptionMenu);
+        if(menu != null) {
+            if (isMute == 0) {
+                menu.setTitle("음악 끄기");
+            } else {
+                menu.setTitle("음악 켜기");
+            }
+        }
     }
 
     // 맵이 제거되었을 경우 마커의 업데이트를 중단한다.
@@ -203,13 +213,13 @@ public class MapActivity extends AppCompatActivity implements TMapGpsManager.onL
                 SharedPreferences opt = getSharedPreferences("Option",MODE_PRIVATE);
                 SharedPreferences.Editor editor = opt.edit();
                 int isMute = opt.getInt("isMute",0);
-                if(isMute == 1){
-                    editor.putInt("isMute",0);
+                if(isMute == 0){
+                    editor.putInt("isMute",1);
                     item.setTitle("음악 켜기");
                     Intent mute = new Intent(this, BGM.class);
                     stopService(mute);
                 }else{
-                    editor.putInt("isMute",1);
+                    editor.putInt("isMute",0);
                     item.setTitle("음악 끄기");
                     Intent mute = new Intent(this, BGM.class);
                     startService(mute);
