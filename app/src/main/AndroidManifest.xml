@@ -65,7 +65,23 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".schedule.OptionActivity" />
+        <!-- <activity android:name=".schedule.OptionActivity" /> -->
+        <activity android:name=".GcmActivity" />
+
+        <service
+            android:name=".FirebaseInstanceIDService"
+         >
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name=".FirebaseMessagingService"
+            >
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

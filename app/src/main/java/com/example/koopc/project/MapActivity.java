@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.PermissionChecker;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -55,17 +56,23 @@ import com.skp.Tmap.TMapPoint;
 import com.skp.Tmap.TMapPolyLine;
 import com.skp.Tmap.TMapView;
 
+import java.util.ArrayList;
+
 public class MapActivity extends AppCompatActivity implements TMapGpsManager.onLocationChangedCallback{
-    TMapView tMapView; //tmap
+    private TMapView tMapView; //tmap
     private Context mContext;
-    TMapGpsManager gps; // gps 매니저
-    TMapCircle tcircle; // 똥그라미!
+    private TMapGpsManager gps; // gps 매니저
+    private TMapCircle tcircle; // 똥그라미!
     static final String TMAP_KEY = "6f1d2856-9bbc-37fe-852b-5b38da058aea"; // 내 티맵 키
 
     //fire base에서 빌딩들의 Latlag
-    DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference(); // 참조 데이터베이스 선언 ( 그냥 선언시 루트 베이스에서 찾는다. )
-    DatabaseReference buildingNameRef = mRootRef.child("building"); // 참조 데이터베이스 내 차일드 값 받기.
-    DataSnapshot snapshot; // snapshot을 전역?으로 돌림.
+    private  DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference(); // 참조 데이터베이스 선언 ( 그냥 선언시 루트 베이스에서 찾는다. )
+    private  DatabaseReference buildingNameRef = mRootRef.child("building"); // 참조 데이터베이스 내 차일드 값 받기.
+    private  DataSnapshot snapshot; // snapshot을 전역?으로 돌림.
+
+    private ArrayList<TMapPoint> pointArray = new ArrayList<TMapPoint>();
+    private ArrayList<String> buildingArray = new ArrayList<String>();
+    private String nowBuilding = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -245,6 +252,8 @@ public class MapActivity extends AppCompatActivity implements TMapGpsManager.onL
             String buildingDescription = ds.child("buildingDescription").getValue().toString(); // 빌딩 설명
 
             TMapPoint point = new TMapPoint(latitude, longitude); // TmapPoint가 구글맵에서 LatLag?엿던가? 그거임
+            pointArray.add(point);
+            buildingArray.add(buildingName);
             markerSetting(buildingName,buildingDescription,point,bitmap,i_bitmap); // 이거 밑에서 써서 다시 쓰기 귀찮
         }
     }
@@ -258,8 +267,9 @@ public class MapActivity extends AppCompatActivity implements TMapGpsManager.onL
         item.setCalloutTitle(buildingName); // 누르면 뜨는 타이틀 설정
         item.setCalloutSubTitle(buildingDescription); // 마커 누르면 뜨는 설명 설정
         item.setCanShowCallout(true); // 뭔지 모르는데 쓰래
-        item.setAutoCalloutVisible(true); // 얘는 시작할때 클릭한 상태로 부를꺼냐 그거임
+//        item.setAutoCalloutVisible(true); // 얘는 시작할때 클릭한 상태로 부를꺼냐 그거임
         item.setCalloutRightButtonImage(i_bitmap); // 오른쪽 버튼 아이콘으로 적용
+
         tMapView.addMarkerItem(buildingName,item); // 아이디 빌딩이름으로 정하고 마커 맵에 추가
     }
 
@@ -268,16 +278,30 @@ public class MapActivity extends AppCompatActivity implements TMapGpsManager.onL
 
         tMapView.setLocationPoint(location.getLongitude(), location.getLatitude()); // gps받고 현재 위치 카메라로 설정 --> 얘가 longitude, latitude임
         tMapView.removeAllTMapCircle(); // 이전에 넣었던 모든 똥그라미 지우고
-        tMapView.setZoomLevel(15); // 줌 땡기고
+        tMapView.setZoomLevel(17); // 줌 땡기고
         tcircle = new TMapCircle(); // 서클 만들고
         tcircle.setCenterPoint(gps.getLocation()); // 똥그라미의 중심에는 우리가 있다.
-        tcircle.setRadius(30); // 30미터 반경
+        tcircle.setRadius(35); // 30미터 반경
         tcircle.setAreaColor(Color.parseColor("#880000ff")); // 컬러는 파랑이
         tcircle.setAreaAlpha(4); // 투명도
         tMapView.addTMapCircle("2",tcircle); // 아이디는 귀찮아서 2넣었음
-
         tMapView.removeAllTMapPolyLine(); // 모든 폴리라인 지우고
 
+        // FCM 빌딩 정보를 갱신시켜줄 물건.
+        float[] distance = new float[2]; // 서클 중심과 마커 로케이션간의 거리
+        // 움직일 떄 FCM에 장소를 갱신해 주기 위함.
+        for(int i = 0; i < pointArray.size(); i++){
+            Location.distanceBetween(pointArray.get(i).getLatitude(),pointArray.get(i).getLongitude(),
+                    tcircle.getCenterPoint().getLatitude(),tcircle.getCenterPoint().getLongitude(),distance); // 이게 디스턴스에 거리를 넣어줌.
+            if(distance[0]<= tcircle.getRadius()){ // 반지름안에 있으면 있으면
+                Log.d("TAG", buildingArray.get(i));
+                FirebaseMessagingService.nowBuilding = buildingArray.get(i).toString(); // FCM에 있는 now 빌딩에 현재 빌딩 상태 저장.
+                break; // 브레이크
+            }else if(pointArray.size() == i + 1){ // 반지름 안에 없는 경우 끝까지 조사했는지를 조사하고
+                Log.d("TAG", "빌딩 없음");
+                FirebaseMessagingService.nowBuilding = ""; // FCM의 빌딩을 초기화 시켜줌.
+            }
+        }
     }
 
     @Override
@@ -317,5 +341,14 @@ public class MapActivity extends AppCompatActivity implements TMapGpsManager.onL
                 //캔쓸하면 그냥 내비둠.
             }
         }
+    }
+
+    public void map_myPosition(View view) {
+        tMapView.setCenterPoint(tcircle.getCenterPoint().getLongitude(),tcircle.getCenterPoint().getLatitude());
+    }
+
+    public void map_mjuPosition(View view) {
+        tMapView.setCenterPoint(pointArray.get(0).getLongitude(),pointArray.get(0).getLatitude());
+
     }
 }

@@ -6,7 +6,11 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.List;
 
@@ -23,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, BGM.class);
             startService(intent);
         }
+        FirebaseMessaging.getInstance().subscribeToTopic("notice"); // 주제를 구독.
+        FirebaseInstanceId.getInstance().getToken(); // FCM서버에 연결.
     }
 
     public void main_pressStart(View view) {
@@ -46,4 +52,5 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, BGM.class);
         stopService(intent);
     }
+
 }
