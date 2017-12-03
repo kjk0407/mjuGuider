@@ -18,7 +18,7 @@ public class VideoActivity extends AppCompatActivity {
         VideoView video = (VideoView)findViewById(R.id.video);
         MediaController mc = new MediaController(this);
         mc.setAnchorView(video);
-        Uri uri = Uri.parse("http://sites.google.com/site/ubiaccessmobile/sample_video.mp4");
+        Uri uri = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.video);
         video.setMediaController(mc);
         video.setVideoURI(uri);
         video.requestFocus();

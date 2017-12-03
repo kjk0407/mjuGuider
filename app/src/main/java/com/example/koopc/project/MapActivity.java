@@ -348,7 +348,7 @@ public class MapActivity extends AppCompatActivity implements TMapGpsManager.onL
     }
 
     public void map_mjuPosition(View view) {
-        tMapView.setCenterPoint(pointArray.get(0).getLongitude(),pointArray.get(0).getLatitude());
+        tMapView.setCenterPoint(pointArray.get(0).getLongitude(),pointArray.get(0).getLatitude(), true);
 
     }
 }
