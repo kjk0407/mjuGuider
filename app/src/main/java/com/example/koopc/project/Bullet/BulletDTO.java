@@ -1,4 +1,4 @@
-package com.example.koopc.project;
+package com.example.koopc.project.Bullet;
 
 /**
  * Created by kooPC on 2017-11-17.

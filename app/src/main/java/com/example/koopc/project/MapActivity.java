@@ -2,7 +2,6 @@ package com.example.koopc.project;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,11 +10,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.PermissionChecker;
@@ -25,24 +21,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.koopc.project.FCM.FirebaseMessagingService;
 import com.example.koopc.project.schedule.ScheduleActivity;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.UiSettings;
-import com.google.android.gms.maps.model.BitmapDescriptor;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.Circle;
-import com.google.android.gms.maps.model.CircleOptions;
-import com.google.android.gms.maps.model.LatLng;
 
-import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -79,7 +62,7 @@ public class MapActivity extends AppCompatActivity implements TMapGpsManager.onL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         mContext = getApplicationContext();
-
+        tcircle = null;
         // 안드로이드 버젼 확인
         String[] permissions = new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION};
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -294,8 +277,9 @@ public class MapActivity extends AppCompatActivity implements TMapGpsManager.onL
             Location.distanceBetween(pointArray.get(i).getLatitude(),pointArray.get(i).getLongitude(),
                     tcircle.getCenterPoint().getLatitude(),tcircle.getCenterPoint().getLongitude(),distance); // 이게 디스턴스에 거리를 넣어줌.
             if(distance[0]<= tcircle.getRadius()){ // 반지름안에 있으면 있으면
-                Log.d("TAG", buildingArray.get(i));
+                Log.d("HAHAHAH", buildingArray.get(i));
                 FirebaseMessagingService.nowBuilding = buildingArray.get(i).toString(); // FCM에 있는 now 빌딩에 현재 빌딩 상태 저장.
+                Log.i("HAHAHAH1",FirebaseMessagingService.nowBuilding);
                 break; // 브레이크
             }else if(pointArray.size() == i + 1){ // 반지름 안에 없는 경우 끝까지 조사했는지를 조사하고
                 Log.d("TAG", "빌딩 없음");
@@ -344,11 +328,18 @@ public class MapActivity extends AppCompatActivity implements TMapGpsManager.onL
     }
 
     public void map_myPosition(View view) {
-        tMapView.setCenterPoint(tcircle.getCenterPoint().getLongitude(),tcircle.getCenterPoint().getLatitude());
+        if(tcircle == null){
+            Toast.makeText(mContext, "아직 GPS를 받지 못헀습니다. 잠시만 기다려 주세요.", Toast.LENGTH_SHORT).show();
+        }else{
+            tMapView.setCenterPoint(tcircle.getCenterPoint().getLongitude(),tcircle.getCenterPoint().getLatitude());
+        }
     }
 
     public void map_mjuPosition(View view) {
-        tMapView.setCenterPoint(pointArray.get(0).getLongitude(),pointArray.get(0).getLatitude());
-
+        if(pointArray.isEmpty()){
+            Toast.makeText(mContext, "아직 GPS를 받지 못 헀습니다. 잠시만 기다려 주세요. ", Toast.LENGTH_SHORT).show();
+        }else{
+            tMapView.setCenterPoint(pointArray.get(0).getLongitude(),pointArray.get(0).getLatitude(),true);
+        }
     }
 }

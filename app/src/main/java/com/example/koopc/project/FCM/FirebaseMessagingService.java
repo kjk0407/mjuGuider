@@ -1,4 +1,4 @@
-package com.example.koopc.project;
+package com.example.koopc.project.FCM;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -9,6 +9,8 @@ import android.net.Uri;
 import android.os.PowerManager;
 import android.support.v4.app.NotificationCompat;
 
+import com.example.koopc.project.MainActivity;
+import com.example.koopc.project.R;
 import com.google.firebase.messaging.RemoteMessage;
 
 import static android.support.v4.app.NotificationCompat.DEFAULT_VIBRATE;

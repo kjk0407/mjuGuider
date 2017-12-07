@@ -1,4 +1,4 @@
-package com.example.koopc.project;
+package com.example.koopc.project.Bullet;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.koopc.project.R;
 
 public class BulletMsgActivity extends AppCompatActivity {
     private TextView nameView;

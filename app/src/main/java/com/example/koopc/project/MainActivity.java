@@ -6,9 +6,9 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
+import com.example.koopc.project.WebView.WebFood;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 
@@ -42,6 +42,11 @@ public class MainActivity extends AppCompatActivity {
     }
     public void main_pressTutorial(View view){
         Intent intent = new Intent(this,VideoActivity.class);
+        startActivity(intent);
+    }
+
+    public void main_webFood(View v) {
+        Intent intent = new Intent(this, WebFood.class);
         startActivity(intent);
     }
 

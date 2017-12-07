@@ -51,8 +51,8 @@
         <activity
             android:name=".NavListActivity"
             android:theme="@style/Theme.AppCompat.Dialog" />
-        <activity android:name=".BulletActivity" />
-        <activity android:name=".BulletMsgActivity" />
+        <activity android:name=".Bullet.BulletActivity" />
+        <activity android:name=".Bullet.BulletMsgActivity" />
         <activity android:name=".schedule.Add_subjectActivity" />
         <activity android:name=".schedule.ScheduleActivity" />
         <activity android:name=".schedule.ScheduleAddActivity" />
@@ -68,20 +68,18 @@
         <!-- <activity android:name=".schedule.OptionActivity" /> -->
         <activity android:name=".GcmActivity" />
 
-        <service
-            android:name=".FirebaseInstanceIDService"
-         >
+        <service android:name=".FCM.FirebaseInstanceIDService">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-        <service
-            android:name=".FirebaseMessagingService"
-            >
+        <service android:name=".FCM.FirebaseMessagingService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <activity android:name=".WebView.WebFood"></activity>
     </application>
 
 </manifest>
