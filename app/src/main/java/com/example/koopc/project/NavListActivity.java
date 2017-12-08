@@ -51,6 +51,7 @@ public class NavListActivity extends AppCompatActivity {
                 adapter = new SimpleAdapter(listView.getContext(), mList, android.R.layout.simple_list_item_1,
                         new String[]{"buildingName"}, new int[] {android.R.id.text1});
                 listView.setAdapter(adapter);
+                // listView에 클릭 리스너 넣어줌.
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

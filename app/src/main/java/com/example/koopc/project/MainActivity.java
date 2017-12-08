@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         FirebaseInstanceId.getInstance().getToken(); // FCM서버에 연결.
     }
 
+    // 시작하기 누름.
     public void main_pressStart(View view) {
         Intent intent = new Intent(this, MapActivity.class);
 
@@ -40,11 +41,12 @@ public class MainActivity extends AppCompatActivity {
 
         if(isintentSafe) startActivity(intent);
     }
+    //튜토리얼 버튼
     public void main_pressTutorial(View view){
         Intent intent = new Intent(this,VideoActivity.class);
         startActivity(intent);
     }
-
+// 명지대 식단 이동
     public void main_webFood(View v) {
         Intent intent = new Intent(this, WebFood.class);
         startActivity(intent);
