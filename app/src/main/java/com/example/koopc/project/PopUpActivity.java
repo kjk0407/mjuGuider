@@ -1,12 +1,14 @@
 package com.example.koopc.project;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.koopc.project.Bullet.BulletActivity;
@@ -18,15 +20,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class PopUpActivity extends AppCompatActivity {
-    ImageView mBuildingImageView; // 건물 이미지 -- 추후 구현 예정
     TextView mBuildingNameView; // 건물 이름
-    TextView mBuildingDescriptionView; // 건물 약식 서술
-    TextView mEventView;//이벤트 약식 설명
-    ListView mIconList; // 건물 아이콘 리스트 -- 추후 구현 예정
+    ImageView imageView; // 이미지 뷰
     String buildingName;
     String latitude;
     String longitude;
     String checkBuilding;
+    String buildingResId;
     DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference(); // 참조 데이터베이스 선언 ( 그냥 선언시 루트 베이스에서 찾는다. )
     DatabaseReference buildingNameRef = mRootRef.child("building"); // 참조 데이터베이스 내 차일드 값 받기.
 //    DatabaseReference eventNameRef = mRootRef.child("event"); // 참조 데이터베이스 내 차일드 값 받기.
@@ -34,17 +34,21 @@ public class PopUpActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-//        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_pop_up);
 
         mBuildingNameView = (TextView) findViewById(R.id.popup_buildingName);
-//        mBuildingDescriptionView = (TextView) findViewById(R.id.popup_buildingDescription);
-//        mEventView = (TextView)findViewById(R.id.popup_event);
+        imageView = (ImageView)findViewById(R.id.popup_buildingImage);
         Intent intent = this.getIntent();
         latitude = intent.getStringExtra("gpsLatitude");// 그냥 이거 latitude랑
         longitude = intent.getStringExtra("gpsLongitude"); // longitude 따로 받았다.
         checkBuilding = this.getIntent().getStringExtra("map_buildingName");
+
+        // 스피너 ( 건물 층수 )
+        Spinner spinner = (Spinner)findViewById(R.id.floor_button);
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.number, R.layout.spinner_item);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(spinnerAdapter);
+
         //데이터 받기 (변경사항이 있을 경우 즉각 반응하도록 설계되어 있다.)
         buildingNameRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -53,10 +57,325 @@ public class PopUpActivity extends AppCompatActivity {
                     if (ds.child("buildingLatitude").getValue().toString().equals(latitude) // 받은 위도와 경도를 디비의 경도들과 비교
                             && ds.child("buildingLongitude").getValue().toString().equals(longitude)) {
                         buildingName = ds.child("buildingName").getValue().toString();
+                        buildingResId = ds.child("buildingResId").getValue().toString();
                         mBuildingNameView.setText(buildingName); // 있으면 화면에 표시
                         mBuildingNameView.setBackgroundResource(R.mipmap.ic_launcher); // 이미지 세팅
 //                        mBuildingDescriptionView.setText(ds.child("buildingDescription").getValue().toString());
-                  }
+
+                        imageView.setImageResource(R.drawable.university);
+                        Spinner spinner = (Spinner)findViewById(R.id.floor_button);
+                        switch (buildingResId){ // buildingResID 받아서 비교해서 각자 건물에 맞는 사진 추가
+                            case "engineer_one":
+                                mBuildingNameView.setBackgroundResource(R.drawable.engineer_one);
+                                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                        switch (parent.getItemAtPosition(position).toString()){
+                                            case "1층":
+                                                imageView.setImageResource(R.drawable.engineer_one_one_floor);
+                                                break;
+                                            case "2층":
+                                                imageView.setImageResource(R.drawable.engineer_one_two_floor);
+                                                break;
+                                            case "3층":
+                                                imageView.setImageResource(R.drawable.engineer_one_three_floor);
+                                                break;
+                                            case "4층":
+                                                imageView.setImageResource(R.drawable.engineer_one_four_floor);
+                                                break;
+                                            case "5층":
+                                                imageView.setImageResource(R.drawable.engineer_one_five_floor);
+                                                break;
+                                            case "6층":
+                                                imageView.setImageResource(R.drawable.engineer_one_six_floor);
+                                                break;
+                                            default: //존재하지 않는 층수에는 NOTHING 사진
+                                                imageView.setImageResource(R.drawable.nothing);
+                                                break;
+                                        }
+                                    }
+                                    public void onNothingSelected(AdapterView<?> parent) {}
+                                });
+                                break;
+                            case "engineer_two":
+                                mBuildingNameView.setBackgroundResource(R.drawable.engineer_two);
+                                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                        switch (parent.getItemAtPosition(position).toString()){
+                                            case "1층":
+                                                imageView.setImageResource(R.drawable.engineer_two_one_floor);
+                                                break;
+                                            case "2층":
+                                                imageView.setImageResource(R.drawable.engineer_two_two_floor);
+                                                break;
+                                            case "3층":
+                                                imageView.setImageResource(R.drawable.engineer_two_three_floor);
+                                                break;
+                                            case "4층":
+                                                imageView.setImageResource(R.drawable.engineer_two_four_floor);
+                                                break;
+                                            case "5층":
+                                                imageView.setImageResource(R.drawable.engineer_two_five_floor);
+                                                break;
+                                            case "6층":
+                                                imageView.setImageResource(R.drawable.engineer_two_six_floor);
+                                                break;
+                                            case "7층":
+                                                imageView.setImageResource(R.drawable.engineer_two_seven_floor);
+                                                break;
+                                            case "8층":
+                                                imageView.setImageResource(R.drawable.engineer_two_eight_floor);
+                                                break;
+                                            case "지하1층":
+                                                imageView.setImageResource(R.drawable.engineer_two_one_underground);
+                                                break;
+                                        }
+                                    }
+                                    public void onNothingSelected(AdapterView<?> parent) {}
+                                });
+                                break;
+                            case "engineer_three":
+                                mBuildingNameView.setBackgroundResource(R.drawable.engineer_three);
+                                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                        switch (parent.getItemAtPosition(position).toString()){
+                                            default: //존재하지 않는 층수에는 NOTHING 사진
+                                                imageView.setImageResource(R.drawable.nothing);
+                                                break;
+                                        }
+                                    }
+                                    public void onNothingSelected(AdapterView<?> parent) {}
+                                });
+                                break;
+                            case "engineer_five":
+                                mBuildingNameView.setBackgroundResource(R.drawable.engineer_five);
+                                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                        switch (parent.getItemAtPosition(position).toString()){
+                                            case "1층":
+                                                imageView.setImageResource(R.drawable.engineer_five_one_floor);
+                                                break;
+                                            case "2층":
+                                                imageView.setImageResource(R.drawable.engineer_five_two_floor);
+                                                break;
+                                            case "3층":
+                                                imageView.setImageResource(R.drawable.engineer_five_three_floor);
+                                                break;
+                                            case "4층":
+                                                imageView.setImageResource(R.drawable.engineer_five_four_floor);
+                                                break;
+                                            case "5층":
+                                                imageView.setImageResource(R.drawable.engineer_five_five_floor);
+                                                break;
+                                            case "6층":
+                                                imageView.setImageResource(R.drawable.engineer_five_six_floor);
+                                                break;
+                                            case "7층":
+                                                imageView.setImageResource(R.drawable.engineer_five_seven_floor);
+                                                break;
+                                            default: //존재하지 않는 층수에는 NOTHING 사진
+                                                imageView.setImageResource(R.drawable.nothing);
+                                                break;
+                                        }
+                                    }
+                                    public void onNothingSelected(AdapterView<?> parent) {}
+                                });
+                                break;
+                            case "myoungjindang":
+                                mBuildingNameView.setBackgroundResource(R.drawable.myoungjindang);
+                                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                        switch (parent.getItemAtPosition(position).toString()){
+                                            default: //존재하지 않는 층수에는 NOTHING 사진
+                                                imageView.setImageResource(R.drawable.nothing);
+                                                break;
+                                        }
+                                    }
+                                    public void onNothingSelected(AdapterView<?> parent) {}
+                                });
+                                break;
+                            case "changjogwan":
+                                mBuildingNameView.setBackgroundResource(R.drawable.changjogwan);
+                                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                        switch (parent.getItemAtPosition(position).toString()){
+                                            case "1층":
+                                                imageView.setImageResource(R.drawable.changjogwan_one_floor);
+                                                break;
+                                            case "2층":
+                                                imageView.setImageResource(R.drawable.changjogwan_two_floor);
+                                                break;
+                                            case "3층":
+                                                imageView.setImageResource(R.drawable.changjogwan_three_floor);
+                                                break;
+                                            case "4층":
+                                                imageView.setImageResource(R.drawable.changjogwan_four_floor);
+                                                break;
+                                            case "5층":
+                                                imageView.setImageResource(R.drawable.changjogwan_five_floor);
+                                                break;
+                                            case "6층":
+                                                imageView.setImageResource(R.drawable.changjogwan_six_floor);
+                                                break;
+                                            case "7층":
+                                                imageView.setImageResource(R.drawable.changjogwan_seven_floor);
+                                                break;
+                                            case "8층":
+                                                imageView.setImageResource(R.drawable.changjogwan_eight_floor);
+                                                break;
+                                            default: //존재하지 않는 층수에는 NOTHING 사진
+                                                imageView.setImageResource(R.drawable.nothing);
+                                                break;
+                                        }
+                                    }
+                                    public void onNothingSelected(AdapterView<?> parent) {}
+                                });
+                                break;
+                            case "chaeyukgwan":
+                                mBuildingNameView.setBackgroundResource(R.drawable.chaeyukgwan);
+                                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                        switch (parent.getItemAtPosition(position).toString()){
+                                            case "1층":
+                                                imageView.setImageResource(R.drawable.chaeyukgwan_one_floor);
+                                                break;
+                                            case "2층":
+                                                imageView.setImageResource(R.drawable.chaeyukgwan_two_floor);
+                                                break;
+                                            default:
+                                                imageView.setImageResource(R.drawable.nothing);
+                                                break;
+                                        }
+                                    }
+                                    public void onNothingSelected(AdapterView<?> parent) {}
+                                });
+                                break;
+                            case "haksaenggwan":
+                                mBuildingNameView.setBackgroundResource(R.drawable.haksaenggwan);
+                                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                        switch (parent.getItemAtPosition(position).toString()){
+                                            default: //존재하지 않는 층수에는 NOTHING 사진
+                                                imageView.setImageResource(R.drawable.nothing);
+                                                break;
+                                        }
+                                    }
+                                    public void onNothingSelected(AdapterView<?> parent) {}
+                                });
+                                break;
+                            case "hambakgwan":
+                                mBuildingNameView.setBackgroundResource(R.drawable.hambakgwan);
+                                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                        switch (parent.getItemAtPosition(position).toString()){
+                                            default: //존재하지 않는 층수에는 NOTHING 사진
+                                                imageView.setImageResource(R.drawable.nothing);
+                                                break;
+                                        }
+                                    }
+                                    public void onNothingSelected(AdapterView<?> parent) {}
+                                });
+                                break;
+                            case "chasaedae":
+                                mBuildingNameView.setBackgroundResource(R.drawable.chasaedae);
+                                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                        switch (parent.getItemAtPosition(position).toString()){
+                                            default: //존재하지 않는 층수에는 NOTHING 사진
+                                                imageView.setImageResource(R.drawable.nothing);
+                                                break;
+                                        }
+                                    }
+                                    public void onNothingSelected(AdapterView<?> parent) {}
+                                });
+                                break;
+                            case "hangjungdong":
+                                mBuildingNameView.setBackgroundResource(R.drawable.hangjungdong);
+                                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                        switch (parent.getItemAtPosition(position).toString()){
+                                            default: //존재하지 않는 층수에는 NOTHING 사진
+                                                imageView.setImageResource(R.drawable.nothing);
+                                                break;
+                                        }
+                                    }
+                                    public void onNothingSelected(AdapterView<?> parent) {}
+                                });
+                                break;
+                            case "bangmok":
+                                mBuildingNameView.setBackgroundResource(R.drawable.bangmok);
+                                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                        switch (parent.getItemAtPosition(position).toString()){
+                                            case "1층":
+                                                imageView.setImageResource(R.drawable.bangmok_one_floor);
+                                                break;
+                                            case "2층":
+                                                imageView.setImageResource(R.drawable.bangmok_two_floor);
+                                                break;
+                                            case "3층":
+                                                imageView.setImageResource(R.drawable.bangmok_three_floor);
+                                                break;
+                                            case "4층":
+                                                imageView.setImageResource(R.drawable.bangmok_four_floor);
+                                                break;
+                                            default:
+                                                imageView.setImageResource(R.drawable.nothing);
+                                                break;
+                                        }
+                                    }
+                                    public void onNothingSelected(AdapterView<?> parent) {}
+                                });
+                                break;
+                            case "chaepul":
+                                mBuildingNameView.setBackgroundResource(R.drawable.chaepul);
+                                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                        switch (parent.getItemAtPosition(position).toString()){
+                                            case "1층":
+                                                imageView.setImageResource(R.drawable.chaepul_one_floor);
+                                                break;
+                                            case "2층":
+                                                imageView.setImageResource(R.drawable.chaepul_two_floor);
+                                                break;
+                                            case "4층":
+                                                imageView.setImageResource(R.drawable.chaepul_four_floor);
+                                                break;
+                                            default:
+                                                imageView.setImageResource(R.drawable.nothing);
+                                                break;
+                                        }
+                                    }
+                                    public void onNothingSelected(AdapterView<?> parent) {}
+                                });
+                                break;
+                            case "gongdongsilhum":
+                                mBuildingNameView.setBackgroundResource(R.drawable.gongdongsilhum);
+                                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                        switch (parent.getItemAtPosition(position).toString()){
+                                            default: //존재하지 않는 층수에는 NOTHING 사진
+                                                imageView.setImageResource(R.drawable.nothing);
+                                                break;
+                                        }
+                                    }
+                                    public void onNothingSelected(AdapterView<?> parent) {}
+                                });
+                                break;
+                            default:
+                                mBuildingNameView.setBackgroundResource(R.drawable.university);
+                                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                        switch (parent.getItemAtPosition(position).toString()){
+                                            default:
+                                                imageView.setImageResource(R.drawable.nothing);
+                                                break;
+                                        }
+                                    }
+                                    public void onNothingSelected(AdapterView<?> parent) {}
+                                });
+                                break;
+                        }
+                    }
                 }
             }
 
