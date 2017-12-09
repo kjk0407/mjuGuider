@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="number">
+    <string-array name="engineer_one">
+        <item>1층</item>
+        <item>2층</item>
+        <item>3층</item>
+        <item>4층</item>
+        <item>5층</item>
+        <item>6층</item>
+    </string-array>
+
+    <string-array name="engineer_two">
+        <item>지하1층</item>
         <item>1층</item>
         <item>2층</item>
         <item>3층</item>
@@ -8,5 +18,73 @@
         <item>5층</item>
         <item>6층</item>
         <item>7층</item>
+    </string-array>
+
+    <string-array name="chaeyukgwan">
+        <item>1층</item>
+        <item>2층</item>
+        <item>3층</item>
+        <item>4층</item>
+        <item>5층</item>
+        <item>6층</item>
+        <item>7층</item>
+        <item>8층</item>
+    </string-array>
+
+    <string-array name="changjogwan">
+        <item>1층</item>
+        <item>2층</item>
+        <item>3층</item>
+        <item>4층</item>
+        <item>5층</item>
+        <item>6층</item>
+        <item>7층</item>
+        <item>8층</item>
+    </string-array>
+
+    <string-array name="bangmok">
+        <item>1층</item>
+        <item>2층</item>
+        <item>3층</item>
+        <item>4층</item>
+    </string-array>
+
+    <string-array name="chaepul">
+        <item>1층</item>
+        <item>2층</item>
+        <item>3층</item>
+        <item>4층</item>
+    </string-array>
+
+    <string-array name="haksaenggwan">
+        <item>지하1층</item>
+        <item>1층</item>
+        <item>2층</item>
+        <item>3층</item>
+        <item>4층</item>
+        <item>5층</item>
+    </string-array>
+
+    <string-array name="hambakgwan">
+        <item>지하1층</item>
+        <item>1층</item>
+        <item>2층</item>
+        <item>3층</item>
+        <item>4층</item>
+        <item>5층</item>
+    </string-array>
+
+    <string-array name="gongdongsilhum">
+        <item>1층</item>
+    </string-array>
+    <string-array name="myoungjindang">
+        <item>지하1층</item>
+        <item>1층</item>
+        <item>2층</item>
+        <item>3층</item>
+        <item>4층</item>
+        <item>5층</item>
+        <item>6층</item>
+
     </string-array>
 </resources>

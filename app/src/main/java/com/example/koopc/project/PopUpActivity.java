@@ -27,6 +27,7 @@ public class PopUpActivity extends AppCompatActivity {
     String longitude;
     String checkBuilding;
     String buildingResId;
+
     DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference(); // 참조 데이터베이스 선언 ( 그냥 선언시 루트 베이스에서 찾는다. )
     DatabaseReference buildingNameRef = mRootRef.child("building"); // 참조 데이터베이스 내 차일드 값 받기.
 //    DatabaseReference eventNameRef = mRootRef.child("event"); // 참조 데이터베이스 내 차일드 값 받기.
@@ -45,9 +46,7 @@ public class PopUpActivity extends AppCompatActivity {
 
         // 스피너 ( 건물 층수 )
         Spinner spinner = (Spinner)findViewById(R.id.floor_button);
-        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.number, R.layout.spinner_item);
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(spinnerAdapter);
+
 
         //데이터 받기 (변경사항이 있을 경우 즉각 반응하도록 설계되어 있다.)
         buildingNameRef.addValueEventListener(new ValueEventListener() {
@@ -61,12 +60,17 @@ public class PopUpActivity extends AppCompatActivity {
                         mBuildingNameView.setText(buildingName); // 있으면 화면에 표시
                         mBuildingNameView.setBackgroundResource(R.mipmap.ic_launcher); // 이미지 세팅
 //                        mBuildingDescriptionView.setText(ds.child("buildingDescription").getValue().toString());
+                        ArrayAdapter<CharSequence> spinnerAdapter = null;
 
                         imageView.setImageResource(R.drawable.university);
                         Spinner spinner = (Spinner)findViewById(R.id.floor_button);
+
                         switch (buildingResId){ // buildingResID 받아서 비교해서 각자 건물에 맞는 사진 추가
                             case "engineer_one":
                                 mBuildingNameView.setBackgroundResource(R.drawable.engineer_one);
+                                spinnerAdapter = ArrayAdapter.createFromResource(getApplicationContext(), R.array.engineer_one, R.layout.spinner_item);
+                                spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                spinner.setAdapter(spinnerAdapter);
                                 spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                         switch (parent.getItemAtPosition(position).toString()){
@@ -98,6 +102,10 @@ public class PopUpActivity extends AppCompatActivity {
                                 break;
                             case "engineer_two":
                                 mBuildingNameView.setBackgroundResource(R.drawable.engineer_two);
+                                spinnerAdapter = ArrayAdapter.createFromResource(getApplicationContext(), R.array.engineer_two, R.layout.spinner_item);
+                                spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                spinner.setAdapter(spinnerAdapter);
+
                                 spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                         switch (parent.getItemAtPosition(position).toString()){
@@ -148,6 +156,9 @@ public class PopUpActivity extends AppCompatActivity {
                                 break;
                             case "engineer_five":
                                 mBuildingNameView.setBackgroundResource(R.drawable.engineer_five);
+                                spinnerAdapter = ArrayAdapter.createFromResource(getApplicationContext(), R.array.engineer_one, R.layout.spinner_item);
+                                spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                spinner.setAdapter(spinnerAdapter);
                                 spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                         switch (parent.getItemAtPosition(position).toString()){
@@ -182,9 +193,33 @@ public class PopUpActivity extends AppCompatActivity {
                                 break;
                             case "myoungjindang":
                                 mBuildingNameView.setBackgroundResource(R.drawable.myoungjindang);
+                                spinnerAdapter = ArrayAdapter.createFromResource(getApplicationContext(), R.array.myoungjindang, R.layout.spinner_item);
+                                spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                spinner.setAdapter(spinnerAdapter);
                                 spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                         switch (parent.getItemAtPosition(position).toString()){
+                                            case "1층":
+                                                imageView.setImageResource(R.drawable.myoungjindang_one);
+                                                break;
+                                            case "2층":
+                                                imageView.setImageResource(R.drawable.myoungjindang_two);
+                                                break;
+                                            case "3층":
+                                                imageView.setImageResource(R.drawable.myoungjindang_three);
+                                                break;
+                                            case "4층":
+                                                imageView.setImageResource(R.drawable.myoungjindang_four);
+                                                break;
+                                            case "5층":
+                                                imageView.setImageResource(R.drawable.myoungjindang_five);
+                                                break;
+                                            case "6층":
+                                                imageView.setImageResource(R.drawable.myoungjindang_six);
+                                                break;
+                                            case "지하1층":
+                                                imageView.setImageResource(R.drawable.myoungjindang_one_underground);
+                                                break;
                                             default: //존재하지 않는 층수에는 NOTHING 사진
                                                 imageView.setImageResource(R.drawable.nothing);
                                                 break;
@@ -195,6 +230,9 @@ public class PopUpActivity extends AppCompatActivity {
                                 break;
                             case "changjogwan":
                                 mBuildingNameView.setBackgroundResource(R.drawable.changjogwan);
+                                spinnerAdapter = ArrayAdapter.createFromResource(getApplicationContext(), R.array.changjogwan, R.layout.spinner_item);
+                                spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                spinner.setAdapter(spinnerAdapter);
                                 spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                         switch (parent.getItemAtPosition(position).toString()){
@@ -232,6 +270,9 @@ public class PopUpActivity extends AppCompatActivity {
                                 break;
                             case "chaeyukgwan":
                                 mBuildingNameView.setBackgroundResource(R.drawable.chaeyukgwan);
+                                spinnerAdapter = ArrayAdapter.createFromResource(getApplicationContext(), R.array.chaeyukgwan, R.layout.spinner_item);
+                                spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                spinner.setAdapter(spinnerAdapter);
                                 spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                         switch (parent.getItemAtPosition(position).toString()){
@@ -251,9 +292,30 @@ public class PopUpActivity extends AppCompatActivity {
                                 break;
                             case "haksaenggwan":
                                 mBuildingNameView.setBackgroundResource(R.drawable.haksaenggwan);
+                                spinnerAdapter = ArrayAdapter.createFromResource(getApplicationContext(), R.array.haksaenggwan, R.layout.spinner_item);
+                                spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                spinner.setAdapter(spinnerAdapter);
                                 spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                         switch (parent.getItemAtPosition(position).toString()){
+                                            case "1층":
+                                                imageView.setImageResource(R.drawable.haksaenggwan_one);
+                                                break;
+                                            case "2층":
+                                                imageView.setImageResource(R.drawable.haksaenggwan_two);
+                                                break;
+                                            case "3층":
+                                                imageView.setImageResource(R.drawable.haksaenggwan_three);
+                                                break;
+                                            case "4층":
+                                                imageView.setImageResource(R.drawable.haksaenggwan_four);
+                                                break;
+                                            case "5층":
+                                                imageView.setImageResource(R.drawable.haksaenggwan_five);
+                                                break;
+                                            case "지하1층":
+                                                imageView.setImageResource(R.drawable.haksaenggwan_one_underground);
+                                                break;
                                             default: //존재하지 않는 층수에는 NOTHING 사진
                                                 imageView.setImageResource(R.drawable.nothing);
                                                 break;
@@ -264,9 +326,30 @@ public class PopUpActivity extends AppCompatActivity {
                                 break;
                             case "hambakgwan":
                                 mBuildingNameView.setBackgroundResource(R.drawable.hambakgwan);
+                                spinnerAdapter = ArrayAdapter.createFromResource(getApplicationContext(), R.array.hambakgwan, R.layout.spinner_item);
+                                spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                spinner.setAdapter(spinnerAdapter);
                                 spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                         switch (parent.getItemAtPosition(position).toString()){
+                                            case "지하1층":
+                                                imageView.setImageResource(R.drawable.hambakgwan_one_underground);
+                                                break;
+                                            case "1층":
+                                                imageView.setImageResource(R.drawable.hambakgwan_one);
+                                                break;
+                                            case "2층":
+                                                imageView.setImageResource(R.drawable.hambakgwan_two);
+                                                break;
+                                            case "3층":
+                                                imageView.setImageResource(R.drawable.hambakgwan_three);
+                                                break;
+                                            case "4층":
+                                                imageView.setImageResource(R.drawable.hambakgwan_four);
+                                                break;
+                                            case "5층":
+                                                imageView.setImageResource(R.drawable.hambakgwan_five);
+                                                break;
                                             default: //존재하지 않는 층수에는 NOTHING 사진
                                                 imageView.setImageResource(R.drawable.nothing);
                                                 break;
@@ -293,6 +376,7 @@ public class PopUpActivity extends AppCompatActivity {
                                 spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                         switch (parent.getItemAtPosition(position).toString()){
+
                                             default: //존재하지 않는 층수에는 NOTHING 사진
                                                 imageView.setImageResource(R.drawable.nothing);
                                                 break;
@@ -303,6 +387,9 @@ public class PopUpActivity extends AppCompatActivity {
                                 break;
                             case "bangmok":
                                 mBuildingNameView.setBackgroundResource(R.drawable.bangmok);
+                                spinnerAdapter = ArrayAdapter.createFromResource(getApplicationContext(), R.array.bangmok, R.layout.spinner_item);
+                                spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                spinner.setAdapter(spinnerAdapter);
                                 spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                         switch (parent.getItemAtPosition(position).toString()){
@@ -328,6 +415,9 @@ public class PopUpActivity extends AppCompatActivity {
                                 break;
                             case "chaepul":
                                 mBuildingNameView.setBackgroundResource(R.drawable.chaepul);
+                                spinnerAdapter = ArrayAdapter.createFromResource(getApplicationContext(), R.array.chaepul, R.layout.spinner_item);
+                                spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                spinner.setAdapter(spinnerAdapter);
                                 spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                         switch (parent.getItemAtPosition(position).toString()){
@@ -350,9 +440,15 @@ public class PopUpActivity extends AppCompatActivity {
                                 break;
                             case "gongdongsilhum":
                                 mBuildingNameView.setBackgroundResource(R.drawable.gongdongsilhum);
+                                spinnerAdapter = ArrayAdapter.createFromResource(getApplicationContext(), R.array.gongdongsilhum, R.layout.spinner_item);
+                                spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                spinner.setAdapter(spinnerAdapter);
                                 spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                         switch (parent.getItemAtPosition(position).toString()){
+                                            case "1층":
+                                                imageView.setImageResource(R.drawable.gongdongsilhum_one);
+                                                break;
                                             default: //존재하지 않는 층수에는 NOTHING 사진
                                                 imageView.setImageResource(R.drawable.nothing);
                                                 break;
