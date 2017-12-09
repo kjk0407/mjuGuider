@@ -75,7 +75,8 @@ public class MapActivity extends AppCompatActivity implements TMapGpsManager.onL
         tMapView.setOnCalloutRightButtonClickListener(new TMapView.OnCalloutRightButtonClickCallback() {
             @Override
             public void onCalloutRightButton(TMapMarkerItem tMapMarkerItem) {
-                if(gps !=null){ // GPS 있을 때
+                if(gps !=null || tcircle != null){ // GPS 있을 때
+
                     float[] distance = new float[2]; // 서클 중심과 마커 로케이션간의 거리
                     Location.distanceBetween(tMapMarkerItem.latitude,tMapMarkerItem.longitude,
                             tcircle.getCenterPoint().getLatitude(),tcircle.getCenterPoint().getLongitude(),distance); // 이게 디스턴스에 거리를 넣어줌.
