@@ -1,4 +1,4 @@
-package com.example.koopc.project;
+package com.example.koopc.project.Multimedia;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.MediaController;
 import android.widget.VideoView;
+
+import com.example.koopc.project.R;
 
 public class VideoActivity extends AppCompatActivity {
 

@@ -35,9 +35,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" />
         <activity
-            android:name=".MapActivity"
+            android:name=".Map.MapActivity"
             android:label="@string/title_activity_map" />
         <activity
             android:name=".PopUpActivity"
@@ -49,7 +48,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".NavListActivity"
+            android:name=".Map.NavListActivity"
             android:theme="@style/Theme.AppCompat.Dialog" />
         <activity android:name=".schedule.Add_subjectActivity" />
         <activity android:name=".Bullet.BulletActivity"/>
@@ -58,10 +57,10 @@
         <activity android:name=".schedule.ScheduleAddActivity" />
         <activity android:name=".schedule.ScheduleUpdateActivity" />
         <activity android:name=".schedule.ScheduleCheckActivity" />
-        <activity android:name=".VideoActivity" />
+        <activity android:name=".Multimedia.VideoActivity" />
 
         <service
-            android:name=".BGM"
+            android:name=".Multimedia.BGM"
             android:enabled="true"
             android:exported="true" />
 

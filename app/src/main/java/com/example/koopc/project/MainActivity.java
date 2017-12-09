@@ -8,6 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.koopc.project.Map.MapActivity;
+import com.example.koopc.project.Multimedia.BGM;
+import com.example.koopc.project.Multimedia.VideoActivity;
 import com.example.koopc.project.WebView.WebFood;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;

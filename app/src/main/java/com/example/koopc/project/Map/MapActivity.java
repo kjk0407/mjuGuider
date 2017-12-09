@@ -1,4 +1,4 @@
-package com.example.koopc.project;
+package com.example.koopc.project.Map;
 
 import android.Manifest;
 import android.app.Activity;
@@ -23,7 +23,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.koopc.project.Multimedia.BGM;
 import com.example.koopc.project.FCM.FirebaseMessagingService;
+import com.example.koopc.project.R;
 import com.example.koopc.project.schedule.ScheduleActivity;
 
 import com.google.firebase.database.DataSnapshot;
@@ -75,30 +77,30 @@ public class MapActivity extends AppCompatActivity implements TMapGpsManager.onL
         tMapView.setOnCalloutRightButtonClickListener(new TMapView.OnCalloutRightButtonClickCallback() {
             @Override
             public void onCalloutRightButton(TMapMarkerItem tMapMarkerItem) {
-                if(gps !=null || tcircle != null){ // GPS 있을 때
+                if(gps !=null && tcircle != null){ // GPS 있을 때
 
                     float[] distance = new float[2]; // 서클 중심과 마커 로케이션간의 거리
                     Location.distanceBetween(tMapMarkerItem.latitude,tMapMarkerItem.longitude,
                             tcircle.getCenterPoint().getLatitude(),tcircle.getCenterPoint().getLongitude(),distance); // 이게 디스턴스에 거리를 넣어줌.
                     if(distance[0]<= tcircle.getRadius()){ // 반지름안에 있으면 있는거고
                         Intent intent = new Intent("intent_PopupAction");
-                        intent.putExtra("gpsLatitude", tMapMarkerItem.latitude);
-                        intent.putExtra("gpsLontitude", tMapMarkerItem.longitude);
+                        intent.putExtra("gpsLatitude", String.valueOf(tMapMarkerItem.latitude));
+                        intent.putExtra("gpsLongititude", String.valueOf(tMapMarkerItem.longitude));
                         intent.putExtra("map_buildingName",tMapMarkerItem.getCalloutTitle());
                         startActivity(intent);
                         intent.putExtra("popupType", "true");
                     }else{ // 없을 경우 호출
                         Intent intent = new Intent("intent_PopupAction");
-                        intent.putExtra("gpsLatitude", tMapMarkerItem.latitude);
-                        intent.putExtra("gpsLontitude", tMapMarkerItem.longitude);
+                        intent.putExtra("gpsLatitude", String.valueOf(tMapMarkerItem.latitude));
+                        intent.putExtra("gpsLontitude", String.valueOf(tMapMarkerItem.longitude));
                         intent.putExtra("map_buildingName",tMapMarkerItem.getCalloutTitle());
                         startActivity(intent);
                         intent.putExtra("popupType", "false");
                     }
                 }else{ // gps를 받지 못했을 때
                     Intent intent = new Intent("intent_PopupAction");
-                    intent.putExtra("gpsLatitude", tMapMarkerItem.latitude);
-                    intent.putExtra("gpsLontitude", tMapMarkerItem.longitude);
+                    intent.putExtra("gpsLatitude", String.valueOf(tMapMarkerItem.latitude));
+                    intent.putExtra("gpsLontitude", String.valueOf(tMapMarkerItem.longitude));
                     intent.putExtra("map_buildingName",tMapMarkerItem.getCalloutTitle());
                     startActivity(intent);
                     intent.putExtra("popupType", "false");

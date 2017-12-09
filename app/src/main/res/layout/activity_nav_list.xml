@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="300dp"
     android:layout_height="400dp"
-    tools:context="com.example.koopc.project.NavListActivity">
+    tools:context="com.example.koopc.project.Map.NavListActivity">
     <ListView
         android:layout_width="match_parent"
         android:layout_height="330dp"
