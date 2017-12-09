@@ -30,14 +30,21 @@ public class BulletActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bullet);
-
-        buildingName = getIntent().getStringExtra("buildingName"); // 인텐트로 받아온 정보는 파이어베이스의 건물 이름이다.
-
         //게시판 추가하기
+        buildingName = getIntent().getStringExtra("buildingName"); // 인텐트로 받아온 정보는 파이어베이스의 건물 이름이다.
         bulletAdapter = new BulletAdapter();
+
         listView = (ListView) findViewById(R.id.Bullet_view);
         listView.setAdapter(bulletAdapter);
         setBulletData();
+
+
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
 
         // 게시판 클릭했을 때 활성화
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -76,6 +83,8 @@ public class BulletActivity extends AppCompatActivity {
                         dto.setBuildingName(ds.child("buildingName").getValue().toString());
 
                         bulletAdapter.addItem(dto); // 세팅한 데이터를 토대로 어댑터에 추가하기.
+//                        bulletAdapter.notifyDataSetChanged();
+                        listView.setAdapter(bulletAdapter);
                     }
                 }
             }
@@ -112,7 +121,6 @@ public class BulletActivity extends AppCompatActivity {
 
                 BulletDTO dto = new BulletDTO(item1, item2, item3, item4, item5);
                 bulletNameRef.push().setValue(dto);
-
                 Toast.makeText(getApplicationContext(), "성공적으로 추가됨.", Toast.LENGTH_LONG).show();
             } else if (resultCode == Activity.RESULT_CANCELED) {
                 Toast.makeText(getApplicationContext(), "취소되었음.", Toast.LENGTH_LONG).show();;
