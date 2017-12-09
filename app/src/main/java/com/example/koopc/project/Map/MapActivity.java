@@ -85,14 +85,14 @@ public class MapActivity extends AppCompatActivity implements TMapGpsManager.onL
                     if(distance[0]<= tcircle.getRadius()){ // 반지름안에 있으면 있는거고
                         Intent intent = new Intent("intent_PopupAction");
                         intent.putExtra("gpsLatitude", String.valueOf(tMapMarkerItem.latitude));
-                        intent.putExtra("gpsLongititude", String.valueOf(tMapMarkerItem.longitude));
+                        intent.putExtra("gpsLongitude", String.valueOf(tMapMarkerItem.longitude));
                         intent.putExtra("map_buildingName",tMapMarkerItem.getCalloutTitle());
                         startActivity(intent);
                         intent.putExtra("popupType", "true");
                     }else{ // 없을 경우 호출
                         Intent intent = new Intent("intent_PopupAction");
                         intent.putExtra("gpsLatitude", String.valueOf(tMapMarkerItem.latitude));
-                        intent.putExtra("gpsLontitude", String.valueOf(tMapMarkerItem.longitude));
+                        intent.putExtra("gpsLongitude", String.valueOf(tMapMarkerItem.longitude));
                         intent.putExtra("map_buildingName",tMapMarkerItem.getCalloutTitle());
                         startActivity(intent);
                         intent.putExtra("popupType", "false");
@@ -100,7 +100,7 @@ public class MapActivity extends AppCompatActivity implements TMapGpsManager.onL
                 }else{ // gps를 받지 못했을 때
                     Intent intent = new Intent("intent_PopupAction");
                     intent.putExtra("gpsLatitude", String.valueOf(tMapMarkerItem.latitude));
-                    intent.putExtra("gpsLontitude", String.valueOf(tMapMarkerItem.longitude));
+                    intent.putExtra("gpsLongitude", String.valueOf(tMapMarkerItem.longitude));
                     intent.putExtra("map_buildingName",tMapMarkerItem.getCalloutTitle());
                     startActivity(intent);
                     intent.putExtra("popupType", "false");

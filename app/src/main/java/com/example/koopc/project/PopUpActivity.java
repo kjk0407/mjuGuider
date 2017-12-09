@@ -43,7 +43,7 @@ public class PopUpActivity extends AppCompatActivity {
 //        mEventView = (TextView)findViewById(R.id.popup_event);
         Intent intent = this.getIntent();
         latitude = intent.getStringExtra("gpsLatitude");// 그냥 이거 latitude랑
-        longitude = intent.getStringExtra("gpsLongititude"); // longitude 따로 받았다.
+        longitude = intent.getStringExtra("gpsLongitude"); // longitude 따로 받았다.
         checkBuilding = this.getIntent().getStringExtra("map_buildingName");
         //데이터 받기 (변경사항이 있을 경우 즉각 반응하도록 설계되어 있다.)
         buildingNameRef.addValueEventListener(new ValueEventListener() {
