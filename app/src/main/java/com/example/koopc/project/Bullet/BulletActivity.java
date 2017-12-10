@@ -48,8 +48,9 @@ public class BulletActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                bulletAdapter.clear();
+                bulletAdapter.clear(); // 초기화
 
+                // 서치 텍스트가 없을 경우 -> 전체 텍스트로 초기화한다.
                 if(searchText == null) {
                     for (DataSnapshot ds : dataSnapshot.getChildren()) {
                         if (ds.child("buildingName").getValue().toString().equals(buildingName)) {
@@ -63,6 +64,7 @@ public class BulletActivity extends AppCompatActivity {
                             bulletAdapter.addItem(dto); // 세팅한 데이터를 토대로 어댑터에 추가하기.
                         }
                     }
+                    // 서치 텍스트가 있을 경우 -> 해당 사항을 반영한다.
                 } else {
                     for (DataSnapshot ds : dataSnapshot.getChildren()) {
                         boolean value = ds.child("messageTitle").getValue().toString().contains(searchText);
@@ -79,6 +81,7 @@ public class BulletActivity extends AppCompatActivity {
                     }
                 }
 
+                // 어댑터에 붙이고 클릭 리스너 달기.
                 listView.setAdapter(bulletAdapter);
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
@@ -141,6 +144,7 @@ public class BulletActivity extends AppCompatActivity {
         }
     }
 
+    // 검색 버튼
     public void button_searchBullet(View view) {
         EditText editText = (EditText) findViewById(R.id.edit_searchBullet);
         searchText = editText.getText().toString();
