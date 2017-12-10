@@ -18,11 +18,17 @@
             android:text="검색 : "/>
 
         <EditText
-            android:id="@+id/popup_searchBullet"
+            android:id="@+id/edit_searchBullet"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="검색 내용을 입력하세요."/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="검색"
+            android:onClick="button_searchBullet"/>
 
     </LinearLayout>
 
@@ -44,25 +50,11 @@
             android:layout_weight="0.1"/>
 
         <Button
-            android:id="@+id/bullet_prev"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Prev 10"
-            android:onClick="bulletPrevClick"/>
-
-        <Button
             android:id="@+id/bullet_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="추가하기"
             android:onClick="bulletAddClick"/>
-
-        <Button
-            android:id="@+id/bullet_next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Next 10"
-            android:onClick="bulletNextClick"/>
 
         <View
             android:layout_width="0dp"
