@@ -42,6 +42,11 @@
             android:id="@+id/floor_layout"
             android:orientation="horizontal">
 
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="0.5"/>
+
             <TextView
                 android:id="@+id/floor_text"
                 android:layout_width="wrap_content"
@@ -53,22 +58,31 @@
             <Spinner
                 android:id="@+id/floor_button"
                 android:layout_width="200dp"
-                android:layout_height="wrap_content"
+                android:layout_height="wrap_content" />
 
-                />
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="0.5"/>
 
         </LinearLayout>
+
     </LinearLayout>
 
     <!-- Notice -->
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:weightSum="1">
 
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"/>
+
         <!-- 리스트-->
         <LinearLayout
+            android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
 
@@ -79,6 +93,18 @@
                 android:text="동영상" />
 
             <Button
+                android:id="@+id/popup_eventButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="이벤트" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <Button
                 android:id="@+id/popup_bulletButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -86,28 +112,23 @@
                 android:text="게시판" />
 
             <Button
-                android:id="@+id/popup_subBuildingButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="건물부속" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:id="@+id/popup_eventButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="이벤트" />
-
-            <Button
                 android:id="@+id/popup_timeTableButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="schedulePress"
                 android:text="시간표" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/popup_subBuildingButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="건물부속" />
 
             <Button
                 android:id="@+id/popup_XButton"
@@ -116,6 +137,10 @@
                 android:text="미구현" />
         </LinearLayout>
 
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"/>
 
         <LinearLayout
             android:orientation="vertical"
