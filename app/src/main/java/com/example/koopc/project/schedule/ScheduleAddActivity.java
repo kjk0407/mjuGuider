@@ -73,18 +73,21 @@ public class ScheduleAddActivity extends AppCompatActivity {
             }
         });
 
+        //캔슬 버튼을 누를 경우
         findViewById(R.id.cancle_btn).setOnClickListener(new Button.OnClickListener() {
             @Override
-            public void onClick(View v) { //cancel 실화냐? 오타 실화냐? 고치기 귀찮은거 실화냐? 스펠링 cancel만 헷갈리는거 실화냐?
+            public void onClick(View v) {
                 finish();
             }
         });
+
+        //추가를 누를 경우
         findViewById(R.id.add_btn).setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentSubActivity = new Intent(ScheduleAddActivity.this,Add_subjectActivity.class); // 에드 서브젝트로 ㄱㄱ
+                Intent intentSubActivity = new Intent(ScheduleAddActivity.this,Add_subjectActivity.class); // add 액티비티로
                 intentSubActivity.putStringArrayListExtra("positionSet",set); // 포지션 저장해놓은거 넘기고
-                startActivity(intentSubActivity);
+                startActivity(intentSubActivity); // 시작
                 finish();
             }
         });

@@ -40,6 +40,7 @@ public class Add_subjectActivity extends AppCompatActivity {
     DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference(); // 참조 데이터베이스 선언 ( 그냥 선언시 루트 베이스에서 찾는다. )
     DatabaseReference buildingNameRef = mRootRef.child("building"); // 참조 데이터베이스 내 차일드 값 받기.
 
+    // 월 ~ 금
     String[] mWeekTitleIds ={
             "월요일",
             "화요일",
@@ -48,6 +49,7 @@ public class Add_subjectActivity extends AppCompatActivity {
             "금요일"
     };
 
+    // 1 ~ 8교시
     String[] mTimeTitle= {
             "1교시",
             "2교시",
@@ -80,6 +82,7 @@ public class Add_subjectActivity extends AppCompatActivity {
         buildingNameRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                // 스피너를 사용하여 빌딩 이름을 받음.
                 for(DataSnapshot ds : dataSnapshot.getChildren()){
                     spinner_items.add(ds.child("buildingName").getValue().toString());
                 }
@@ -145,8 +148,8 @@ public class Add_subjectActivity extends AppCompatActivity {
                 }else if( set!=null) { // add에서 넘어왔으면
                     for(int i = 0; i < set.size(); i++) { // 칸 마다 다 넣어줘야 하니까 for문 돌림.
                         int grid = Integer.parseInt(set.get(i));
-                        int timetable = grid / 6;
-                        int weektable = grid % 6;
+                        int timetable = grid / 6; // 6으로 나눈 몫이 교시
+                        int weektable = grid % 6; // 나머지가 요일
                         String s = mWeekTitleIds[weektable-1] + "  " + mTimeTitle[timetable-1];
                         c.put("time",s);
                         mDB.update("class" ,c, "grid= '" + set.get(i)+"'", null);
@@ -156,7 +159,7 @@ public class Add_subjectActivity extends AppCompatActivity {
             }
         });
 
-        //밑에는 색상 추가하는 토글버튼 추가할 때 긁어온 애들
+        //밑에는 색상 추가하는 토글버튼
 
         ((ToggleButton)findViewById(R.id.color_button1)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

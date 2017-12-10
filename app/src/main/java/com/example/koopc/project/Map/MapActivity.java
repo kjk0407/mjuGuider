@@ -65,6 +65,7 @@ public class MapActivity extends AppCompatActivity implements TMapGpsManager.onL
         mContext = getApplicationContext();
         tcircle = null;
 
+        // tmapview를 먼저 선언하는 이유는 퍼미션 설정하기 전에
         tMapView = (TMapView)findViewById(R.id.tmapView); // xml불러옴
         tMapView.setSKPMapApiKey(TMAP_KEY); // 내 tmap키
 
@@ -105,7 +106,6 @@ public class MapActivity extends AppCompatActivity implements TMapGpsManager.onL
                     startActivity(intent);
                     intent.putExtra("popupType", "false");
                 }
-
             }
         });
 
@@ -263,6 +263,7 @@ public class MapActivity extends AppCompatActivity implements TMapGpsManager.onL
         }
     }
 
+    // 마커 설정
     public void markerSetting(String buildingName,String buildingDescription ,TMapPoint point, Bitmap bitmap, Bitmap i_bitmap){
         TMapMarkerItem item = new TMapMarkerItem(); // 마커 아이템 만듭니다.
         item.setTMapPoint(point); // 받은 위도 경도에 세팅
@@ -278,6 +279,7 @@ public class MapActivity extends AppCompatActivity implements TMapGpsManager.onL
         tMapView.addMarkerItem(buildingName,item); // 아이디 빌딩이름으로 정하고 마커 맵에 추가
     }
 
+    // gps 변하면 호출
     @Override
     public void onLocationChange(Location location) { // gps바뀌면 --> 우리가 이동하면
 
@@ -328,7 +330,7 @@ public class MapActivity extends AppCompatActivity implements TMapGpsManager.onL
 
                     // 비트맵 설정들.
                     BitmapFactory.Options options = new BitmapFactory.Options();
-                    options.inSampleSize = 2; // 마커 크기 2분의 1로 줄인다. 반으로 쭐였어
+                    options.inSampleSize = 2; // 마커 크기 2분의 1로 줄인다. 크기가 너무 큼.
                     Bitmap bitmap = BitmapFactory.decodeResource(mContext.getResources(),R.mipmap.ic_launcher_round,options); // 애는 그냥 화면에 나오는 아이콘
                     Bitmap i_bitmap = BitmapFactory.decodeResource(mContext.getResources(),R.mipmap.ic_launcher,options); // 얘는 클릭하면 설명이랑 같이 오른쪽 버튼 그림
 
@@ -354,6 +356,7 @@ public class MapActivity extends AppCompatActivity implements TMapGpsManager.onL
         }
     }
 
+    //gps가 있을 경우 현재 위치 소환
     public void map_myPosition(View view) {
         if(tcircle == null){
             Toast.makeText(mContext, "아직 GPS를 받지 못헀습니다. 잠시만 기다려 주세요.", Toast.LENGTH_SHORT).show();
@@ -362,9 +365,10 @@ public class MapActivity extends AppCompatActivity implements TMapGpsManager.onL
         }
     }
 
+    // 명지대로 소환 --> GPS가 없어도 됨.
     public void map_mjuPosition(View view) {
         if(pointArray.isEmpty()){
-            Toast.makeText(mContext, "아직 GPS를 받지 못 헀습니다. 잠시만 기다려 주세요. ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, "아직 건물 정보를 받지 못 헀습니다. 잠시만 기다려 주세요. ", Toast.LENGTH_SHORT).show();
         }else{
             tMapView.setCenterPoint(pointArray.get(0).getLongitude(),pointArray.get(0).getLatitude(),true);
         }

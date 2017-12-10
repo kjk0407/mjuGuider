@@ -35,11 +35,15 @@ public class ScheduleUpdateActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
+        //DB 불러오기
         FeedReaderDbHelper mDBHelper = new FeedReaderDbHelper(this);
         mDB = mDBHelper.getWritableDatabase();
         mDBHelper.onCreate(mDB);
         mCursor = mDB.rawQuery("SELECT * FROM class WHERE grid="+pos+";",null);
         mCursor.moveToFirst();
+
+        //각 텍스트뷰에 데이터 집어넣기
         TextView tv;
         tv = (TextView)findViewById(R.id.info_subject_show);
         tv.setText(mCursor.getString(2));
@@ -49,22 +53,27 @@ public class ScheduleUpdateActivity extends AppCompatActivity {
         tv = (TextView)findViewById(R.id.info_classroom_show);
         tv.setText(mCursor.getString(3));
 
+        // 각 버튼에 대해 클릭 리스너 설정
+        // 취소 누를시 액티비티 종료
         findViewById(R.id.info_close).setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
+        // 업데이트로 넘길 시 강좌 이름을 add로 엑스트라로 넘김.
+        // Add_Activity는 업데이트도 겸함.
         findViewById(R.id.info_edit).setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ScheduleUpdateActivity.this, Add_subjectActivity.class);
-
                 intent.putExtra("subjectName",subjectName);
                 startActivity(intent);
                 finish();
             }
         });
+
+        // subject이름이 같은 강좌들을 다 지워 줌.
         findViewById(R.id.info_delete).setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {

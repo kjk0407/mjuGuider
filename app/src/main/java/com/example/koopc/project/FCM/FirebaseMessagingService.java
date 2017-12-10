@@ -15,18 +15,17 @@ import com.google.firebase.messaging.RemoteMessage;
 
 import static android.support.v4.app.NotificationCompat.DEFAULT_VIBRATE;
 
-//
-
+// 공지사항을 서버에서 받을 경우 호출됨.
 public class FirebaseMessagingService extends com.google.firebase.messaging.FirebaseMessagingService {
     public static final String TAG = "FirebaseMsgService";
     public static String nowBuilding = ""; // 현재 어느 빌딩에 있는지를 확인
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
-        if(remoteMessage.getNotification().getTitle() == null){ // 파베에서 타이틀을 빌딩 이름으로 전달하고
-            sendNotification(remoteMessage.getNotification().getBody()); // 없으면 그냥 어플을 가진 모든 애들에게 푸시 전달
-        }else if(remoteMessage.getNotification().getTitle().equals(nowBuilding)) { // 빌딩이름을 설정하여 전달하면
-            sendNotification(remoteMessage.getNotification().getBody()); // 해당 빌딩에 있는 사람들만 푸시 받음.
+        if(remoteMessage.getNotification().getTitle() == null){ // firebase에서 타이틀을 빌딩 이름으로 전달하지 않으면
+            sendNotification(remoteMessage.getNotification().getBody()); // 그냥 메세지 표시
+        }else if(remoteMessage.getNotification().getTitle().equals(nowBuilding)) { // 빌딩이름을 설정하여 전달하면 현재 위치와 비교하여 같으면
+            sendNotification(remoteMessage.getNotification().getBody()); // 메세지 표시
         }
 
     }

@@ -79,6 +79,7 @@ public class NavListActivity extends AppCompatActivity {
             }
         });
     }
+    // 취소를 누르면 리스트 액티비티 종료
     public void navCancel(View v){
         finish();
     }
