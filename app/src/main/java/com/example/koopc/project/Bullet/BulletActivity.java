@@ -65,7 +65,8 @@ public class BulletActivity extends AppCompatActivity {
                     }
                 } else {
                     for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                        if (ds.child("messageTitle").getValue().toString().equals(searchText) && ds.child("buildingName").getValue().toString().equals(buildingName)) {
+                        boolean value = ds.child("messageTitle").getValue().toString().contains(searchText);
+                        if (value == true && ds.child("buildingName").getValue().toString().equals(buildingName)) {
                             BulletDTO dto = new BulletDTO(); // DTO 는 item 값. item 에 해당 데이터 3개 세팅할것.
                             dto.setMessageTitle(ds.child("messageTitle").getValue().toString());
                             dto.setMessageContent(ds.child("messageContent").getValue().toString());
