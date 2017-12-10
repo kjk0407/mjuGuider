@@ -22,7 +22,6 @@
         android:text="수강 명 : "
         style="@style/class_info_title"
         />
-
     <EditText
         android:id="@+id/class_add_classname_show"
         android:layout_width="match_parent"

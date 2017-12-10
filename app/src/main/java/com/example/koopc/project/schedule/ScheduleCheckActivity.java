@@ -46,7 +46,7 @@ public class ScheduleCheckActivity extends AppCompatActivity {
                 if(mCursor.getString(7).equals(buildingName)){
                     HashMap<String, String> item = new HashMap<String, String>();
                     item.put("time",mCursor.getString(6));
-                    item.put("classname",mCursor.getString(2));
+                    item.put("classname",mCursor.getString(2)+ " " + mCursor.getString(3));
                     mList.add(item);
                 }
             }while(mCursor.moveToNext());

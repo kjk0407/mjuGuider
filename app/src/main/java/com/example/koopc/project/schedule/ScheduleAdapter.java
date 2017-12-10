@@ -90,6 +90,7 @@ public class ScheduleAdapter extends BaseAdapter {
                 ((TextView)v).setGravity(Gravity.CENTER); // 가운데 배열
                 ((TextView)v).setText(mWeekTitleIds[position]); // 요일 배열 넣기
                 v.setBackgroundColor(Color.parseColor("#bfd5fc")); // 배경색
+
                 ((TextView) v).setHeight(250); // 셀크기
                 v.setLongClickable(false);
             }
@@ -101,9 +102,10 @@ public class ScheduleAdapter extends BaseAdapter {
                         ((TextView) v).setHeight(250);
                         ((TextView)v).setGravity(Gravity.CENTER);
 
-                        s = s + mCursor.getString(2) +mCursor.getString(7); // 각 디비의 강좌 이름을 받는다.
+                        s = s + mCursor.getString(2) + "\n" +mCursor.getString(3); // 각 디비의 강좌 이름을 받는다.
                         v.setBackgroundColor(Color.parseColor(mCursor.getString(5))); // 디비 안에 색상 디비도 존재
                         ((TextView) v).setText(s); // 텍스트뷰에 넣기
+                        ((TextView) v).setTextColor(Color.parseColor("#000000"));// 색이 안보여서 하양에서  검정색으로 변경
                         if(mCursor.moveToNext()){ // 다음으로 이동  --> 있으면 그냥 flag1
                             flag = 1;
                         }else flag = 0; // 안되면 flag 0으로 세팅
@@ -116,8 +118,8 @@ public class ScheduleAdapter extends BaseAdapter {
                         c.put("location"," "); // 강의실도 비우고
                         c.put("color","#FFFFFF"); // 색은 흰색으로
                         c.put("permission","0"); // 퍼미션은 add되서 각 강좌명등이 입력되면 1로 두고 그냥 빈칸이면 0으로 함.
-                        c.put("time"," ");// 시간
-                        c.put("building", " ");
+                        c.put("time"," "); // 시간
+                        c.put("building", " "); // 빌딩
                         mDB.insert("class",null,c); // 인서트 한다.
                         ((TextView)v).setText(" " ); // 텍스트 뷰의 내용을 비우고
                         v.setBackgroundColor(Color.parseColor("#FFFFFF")); // 텍스트 뷰의 색을 추가

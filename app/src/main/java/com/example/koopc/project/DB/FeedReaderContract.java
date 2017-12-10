@@ -33,8 +33,8 @@ public final class FeedReaderContract {
         public static final String USER_COLUMN_NAME_LOCATION = "location"; // 강의실 위치
         public static final String USER_COLUMN_NAME_PROFESSOR = "professor"; // 담당교수 명
         public static final String USER_COLUMN_NAME_COLOR = "color"; // 각 칸의 색깔
-        public static final String USER_COLUMN_NAME_TIME = "time"; // 칸  포지션
-        public static final String USER_COLUMN_NAME_BUILDING = "building"; // 칸  포지션
+        public static final String USER_COLUMN_NAME_TIME = "time"; // 시간 정보
+        public static final String USER_COLUMN_NAME_BUILDING = "building"; // 빌딩 이름
         public static final String USER_COLUMN_NAME_GRID = "grid"; // 칸  포지션
         public static final String USER_COLUMN_NAME_PERMISSION = "permission"; // 데이터가 들어있는지 안 들어있는지
 

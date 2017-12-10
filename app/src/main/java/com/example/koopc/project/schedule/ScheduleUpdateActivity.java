@@ -87,6 +87,7 @@ public class ScheduleUpdateActivity extends AppCompatActivity {
                     c.put("location"," ");
                     c.put("permission", "0");
                     c.put("time"," ");
+                    c.put("building", " ");
                     mDB.update("class", c, "classname= '" + subjectName.toString()+"'", null);
                     finish();
                 }
