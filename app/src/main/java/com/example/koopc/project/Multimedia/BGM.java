@@ -15,6 +15,7 @@ public class BGM extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         mp = MediaPlayer.create(this, R.raw.song1);
+        mp.setLooping(true);
         mp.start();
         return super.onStartCommand(intent, flags, startId);
     }
