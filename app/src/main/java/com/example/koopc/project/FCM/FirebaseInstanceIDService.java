@@ -20,6 +20,7 @@ public class FirebaseInstanceIDService extends FirebaseInstanceIdService {
     public FirebaseInstanceIDService() {
     }
 
+    // 아이디 서버에 전달
     @Override
     public void onTokenRefresh() {
         String token = FirebaseInstanceId.getInstance().getToken();
@@ -27,13 +28,13 @@ public class FirebaseInstanceIDService extends FirebaseInstanceIdService {
 
         sendRegistrationToServer(token);
     }
-
+    // 이후 서버로 메세지를 보내는 것을 개발할 때 사용할 것.
     private void sendRegistrationToServer(String token) {
         OkHttpClient client = new OkHttpClient();
         RequestBody body = new FormBody.Builder()
                 .add("Token",token)
                 .build();
-
+        // 이후 개발에 사용할 리퀘스트
         Request request = new Request.Builder()
                 .url("http://서버주소/fcm/register.php")
                 .post(body)

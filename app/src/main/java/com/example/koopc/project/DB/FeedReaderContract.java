@@ -6,10 +6,11 @@ import android.provider.BaseColumns;
  * Created by kooPC on 2017-10-28.
  */
 
+// 시간표에 사용하는 DB
 public final class FeedReaderContract {
     public FeedReaderContract(){};
 
-
+    // create 테이블
     public static final String SQL_CREATE_CLASS =
             "CREATE TABLE IF NOT EXISTS " + FeedEntry.USER_TABLE_NAME2 + " ( " +
                     FeedEntry._ID + " INTEGER PRIMARY KEY," +

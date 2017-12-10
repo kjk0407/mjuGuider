@@ -12,6 +12,7 @@ public class BGM extends Service {
     public BGM() {
     }
 
+    // 서비스로 BGM 구현
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         mp = MediaPlayer.create(this, R.raw.song1);
@@ -20,6 +21,7 @@ public class BGM extends Service {
         return super.onStartCommand(intent, flags, startId);
     }
 
+    // 없어지면 stop 시킴킴
     @Override
     public void onDestroy() {
         super.onDestroy();

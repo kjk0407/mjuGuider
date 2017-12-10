@@ -80,14 +80,13 @@ public class ScheduleAddActivity extends AppCompatActivity {
                 finish();
             }
         });
-
         //추가를 누를 경우
         findViewById(R.id.add_btn).setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intentSubActivity = new Intent(ScheduleAddActivity.this,Add_subjectActivity.class); // add 액티비티로
                 intentSubActivity.putStringArrayListExtra("positionSet",set); // 포지션 저장해놓은거 넘기고
-                startActivity(intentSubActivity); // 시작
+                startActivity(intentSubActivity);
                 finish();
             }
         });
