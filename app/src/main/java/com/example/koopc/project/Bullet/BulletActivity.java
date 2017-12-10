@@ -61,7 +61,6 @@ public class BulletActivity extends AppCompatActivity {
                             dto.setBuildingName(ds.child("buildingName").getValue().toString());
 
                             bulletAdapter.addItem(dto); // 세팅한 데이터를 토대로 어댑터에 추가하기.
-                            listView.setAdapter(bulletAdapter);
                         }
                     }
                 } else {
@@ -75,11 +74,11 @@ public class BulletActivity extends AppCompatActivity {
                             dto.setBuildingName(ds.child("buildingName").getValue().toString());
 
                             bulletAdapter.addItem(dto); // 세팅한 데이터를 토대로 어댑터에 추가하기.
-                            listView.setAdapter(bulletAdapter);
                         }
                     }
                 }
 
+                listView.setAdapter(bulletAdapter);
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
