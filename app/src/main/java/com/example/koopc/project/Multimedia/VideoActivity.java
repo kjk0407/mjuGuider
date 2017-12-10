@@ -11,6 +11,7 @@ import android.widget.VideoView;
 
 import com.example.koopc.project.R;
 
+// 튜토리얼 비디오
 public class VideoActivity extends AppCompatActivity {
 
     @Override
@@ -21,12 +22,14 @@ public class VideoActivity extends AppCompatActivity {
         VideoView video = (VideoView)findViewById(R.id.video);
         MediaController mc = new MediaController(this);
         mc.setAnchorView(video);
+        // 내부 비디오 URL을 사용해서 비디오 재생
         Uri uri = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.video);
         video.setMediaController(mc);
         video.setVideoURI(uri);
         video.requestFocus();
         video.start();
 
+        // 비디오 시작시 BGM 멈춤
         Intent intent = new Intent(this, BGM.class);
         stopService(intent);
 
@@ -38,6 +41,7 @@ public class VideoActivity extends AppCompatActivity {
         });
     }
 
+    //  destroy할 경우 멈춘 BGM을 다시 시작
     @Override
     protected void onDestroy() {
         super.onDestroy();

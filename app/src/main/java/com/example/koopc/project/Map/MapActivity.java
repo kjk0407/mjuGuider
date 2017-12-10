@@ -55,6 +55,7 @@ public class MapActivity extends AppCompatActivity implements TMapGpsManager.onL
     private  DatabaseReference buildingNameRef = mRootRef.child("building"); // 참조 데이터베이스 내 차일드 값 받기.
     private  DataSnapshot snapshot; // snapshot을 전역?으로 돌림.
 
+
     private ArrayList<TMapPoint> pointArray = new ArrayList<TMapPoint>(); // 각 빌딩들의 좌표 저장
     private ArrayList<String> buildingArray = new ArrayList<String>(); // 각 빌딩들의 이름 저장.
 
@@ -64,6 +65,8 @@ public class MapActivity extends AppCompatActivity implements TMapGpsManager.onL
         setContentView(R.layout.activity_map);
         mContext = getApplicationContext();
         tcircle = null;
+
+
 
         // tmapview를 먼저 선언하는 이유는 퍼미션 설정하기 전에
         tMapView = (TMapView)findViewById(R.id.tmapView); // xml불러옴
@@ -301,9 +304,9 @@ public class MapActivity extends AppCompatActivity implements TMapGpsManager.onL
             Location.distanceBetween(pointArray.get(i).getLatitude(),pointArray.get(i).getLongitude(),
                     tcircle.getCenterPoint().getLatitude(),tcircle.getCenterPoint().getLongitude(),distance); // 이게 디스턴스에 거리를 넣어줌.
             if(distance[0]<= tcircle.getRadius()){ // 반지름안에 있으면 있으면
-                Log.d("HAHAHAH", buildingArray.get(i));
+
                 FirebaseMessagingService.nowBuilding = buildingArray.get(i).toString(); // FCM에 있는 now 빌딩에 현재 빌딩 상태 저장.
-                Log.i("HAHAHAH1",FirebaseMessagingService.nowBuilding);
+
                 break; // 브레이크
             }else if(pointArray.size() == i + 1){ // 반지름 안에 없는 경우 끝까지 조사했는지를 조사하고
                 Log.d("TAG", "빌딩 없음");
