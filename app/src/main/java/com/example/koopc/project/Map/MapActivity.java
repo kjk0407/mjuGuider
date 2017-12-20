@@ -11,8 +11,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Build;
-import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.PermissionChecker;
 import android.support.v7.app.AppCompatActivity;
@@ -23,11 +23,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.koopc.project.Multimedia.BGM;
+import com.example.koopc.project.Bullet.BulletActivity;
 import com.example.koopc.project.FCM.FirebaseMessagingService;
+import com.example.koopc.project.Multimedia.BGM;
 import com.example.koopc.project.R;
 import com.example.koopc.project.schedule.ScheduleActivity;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -198,13 +198,14 @@ public class MapActivity extends AppCompatActivity implements TMapGpsManager.onL
        SharedPreferences opt = getSharedPreferences("Option",MODE_PRIVATE);
         int isMute = opt.getInt("isMute",0);
         if(isMute == 0) {
-            menu.getItem(3).setTitle("음악 끄기");
+            menu.getItem(4).setTitle("음악 끄기");
         }else{
-            menu.getItem(3).setTitle("음악 켜기");
+            menu.getItem(4).setTitle("음악 켜기");
         }
         return true;
     }
 
+    //메뉴 선택하기
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId() ) {
@@ -222,6 +223,11 @@ public class MapActivity extends AppCompatActivity implements TMapGpsManager.onL
                 //스케쥴로 이동
                 Intent intent2 = new Intent(MapActivity.this,ScheduleActivity.class);
                 startActivity(intent2);
+                return true;
+            case R.id.BulletMenu:
+                // 게시판으로 이동
+                Intent intent3 = new Intent(MapActivity.this,BulletActivity.class);
+                startActivity(intent3);
                 return true;
             case R.id.OptionMenu:
                 // 음악 설정.

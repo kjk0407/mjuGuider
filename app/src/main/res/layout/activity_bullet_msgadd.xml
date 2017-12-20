@@ -37,12 +37,13 @@
             android:layout_weight="1"></View>
 
         <Button
-            android:onClick="bullet_msgAddButton"
+            android:id="@+id/msg_addButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="작성완료"/>
 
         <Button
+            android:id="@+id/msg_cancelButton"
             android:onClick="bullet_msgCancelButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

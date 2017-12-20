@@ -38,6 +38,8 @@
         <activity
             android:name=".Map.MapActivity"
             android:label="@string/title_activity_map" />
+
+        <!-- 나는 "com.example.koopc.project" 이 상단에 선언된 위치와 동일한 위치이므로 . 으로 대체함. -->
         <activity
             android:name=".PopUpActivity"
             android:theme="@style/Theme.AppCompat.Dialog">
@@ -47,12 +49,13 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <!-- 여기서부터는 패키지명이 다르므로 패키지명을 명시했다. -->
         <activity
             android:name=".Map.NavListActivity"
             android:theme="@style/Theme.AppCompat.Dialog" />
+        <activity android:name=".Bullet.BulletActivity" />
+        <activity android:name=".Bullet.BulletMsgActivity" />
         <activity android:name=".schedule.Add_subjectActivity" />
-        <activity android:name=".Bullet.BulletActivity"/>
-        <activity android:name=".Bullet.BulletMsgActivity"/>
         <activity android:name=".schedule.ScheduleActivity" />
         <activity android:name=".schedule.ScheduleAddActivity" />
         <activity android:name=".schedule.ScheduleUpdateActivity" />
@@ -77,7 +80,9 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".WebView.WebFood"></activity>
+        <activity android:name=".WebView.WebFood" />
+        <activity android:name=".Bullet.PBulletActivity" />
+        <activity android:name=".Bullet.BulletMsgAddActivity"></activity>
     </application>
 
 </manifest>

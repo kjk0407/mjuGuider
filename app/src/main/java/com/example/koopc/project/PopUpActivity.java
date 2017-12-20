@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.example.koopc.project.Bullet.BulletActivity;
+import com.example.koopc.project.Bullet.PBulletActivity;
 import com.example.koopc.project.schedule.ScheduleCheckActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -32,7 +32,6 @@ public class PopUpActivity extends AppCompatActivity {
 
     DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference(); // 참조 데이터베이스 선언 ( 그냥 선언시 루트 베이스에서 찾는다. )
     DatabaseReference buildingNameRef = mRootRef.child("building"); // 참조 데이터베이스 내 차일드 값 받기.
-//    DatabaseReference eventNameRef = mRootRef.child("event"); // 참조 데이터베이스 내 차일드 값 받기.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +63,6 @@ public class PopUpActivity extends AppCompatActivity {
                         buildingResId = ds.child("buildingResId").getValue().toString();
                         mBuildingNameView.setText(buildingName); // 있으면 화면에 표시
                         mBuildingNameView.setBackgroundResource(R.mipmap.ic_launcher); // 이미지 세팅
-//                        mBuildingDescriptionView.setText(ds.child("buildingDescription").getValue().toString());
                         ArrayAdapter<CharSequence> spinnerAdapter = null;
 
                         imageView.setImageResource(R.drawable.university);
@@ -486,23 +484,6 @@ public class PopUpActivity extends AppCompatActivity {
             }
         });
 
-//        //데이터 받기 (변경사항이 있을 경우 즉각 반응하도록 설계되어 있다.)
-//        eventNameRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                for (DataSnapshot ds : dataSnapshot.getChildren()){
-//                    if(ds.child("buildingName").getValue().toString().equals(buildingName)){
-//                        mEventView.setText(ds.child("eventName").getValue().toString() + " : "+
-//                                ds.child("eventDescription").getValue().toString());
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
     }
 
     @Override
@@ -550,7 +531,7 @@ public class PopUpActivity extends AppCompatActivity {
 
     // 버튼 입력하기
     public void bulletButtonClick(View view) {
-        Intent intent = new Intent(this, BulletActivity.class);
+        Intent intent = new Intent(this, PBulletActivity.class);
         intent.putExtra("buildingName", buildingName);
         startActivity(intent);
     }

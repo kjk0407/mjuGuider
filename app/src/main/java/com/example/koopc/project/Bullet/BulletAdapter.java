@@ -64,8 +64,8 @@ public class BulletAdapter extends BaseAdapter implements View.OnClickListener {
          BulletDTO dto = listBullet.get(position);
 
 //        holder.icon.setImageResource(dto.getResID()); (관리자의 공지와 일반 메세지를 타입에 따라 구분하기.)
-        holder.title.setText(dto.getMessageTitle());
-        holder.date.setText(dto.getMessageDate());
+        holder.title.setText(dto.getMsgTitle());
+        holder.date.setText(dto.getMsgDate());
 
         return convertView;
     }

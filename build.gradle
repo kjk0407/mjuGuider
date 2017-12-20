@@ -2,10 +2,11 @@
 
 buildscript {
     repositories {
-        jcenter()
+        jcenter() // 외부 라이브러리를 jcenter 의 저장소에서 검색하여 사용하는 방식.
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
+        // jcenter 에서 가져올 라이브러리를 선언함.
+        classpath 'com.android.tools.build:gradle:2.3.3' // 내 최소 라이브러리는 2.3.3 에서 구동할 수 있게끔 통제.
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -13,6 +14,7 @@ buildscript {
     }
 }
 
+// 모든 프로젝트의 리포지토리를 설정하는 부분이다.
 allprojects {
     repositories {
         jcenter()

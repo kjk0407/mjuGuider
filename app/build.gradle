@@ -1,17 +1,17 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "26.0.1"
-    defaultConfig {
-        applicationId "com.example.koopc.project"
-        minSdkVersion 23
-        targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+    compileSdkVersion 25 // 안드로이드 OS 버젼 API 레벨 25 로 컴파일 하기.
+    buildToolsVersion "26.0.1" // 빌드 툴 버전 ( 26.0.1 )
+    defaultConfig {// androidManifest.xml 파일에 있는 내용으로 build.gradle 값이 우선 순위가 가장 높다.
+        applicationId "com.example.koopc.project" //패키지명
+        minSdkVersion 23 // 최소 안드로이드 운영체제 버젼
+        targetSdkVersion 25 // 안드로이드 운영체제 지원 대상 버전
+        versionCode 1 // 버전 코드
+        versionName "1.0" // 버전 명
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-    buildTypes {
+    buildTypes { //프로 가드.
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -19,16 +19,13 @@ android {
     }
 }
 
-dependencies {
+dependencies { // 의존성을 통해서 내/외부에서 .jar 형식으로 받아올 수 있게끔 한다.
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile files('libs/com.skp.Tmap_1.0.48.jar')
-
-
-
-
+    // 각종 외부에서 가져와야 할 컴파일 정보들을 여기에서 받는다.
+    compile files('libs/com.skp.Tmap_1.0.48.jar') // 티맵 jar 를 받아옴.
     compile 'com.google.android.gms:play-services-maps:10.0.1'
     compile 'com.google.android.gms:play-services-location:10.0.1'
     compile 'com.android.support:appcompat-v7:25.3.1'
@@ -39,4 +36,6 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.2.0'
     testCompile 'junit:junit:4.12'
 }
+
+// 구글 서비스의 플러그인 적용
 apply plugin: 'com.google.gms.google-services'

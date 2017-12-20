@@ -5,18 +5,139 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:weightSum="10"
     tools:context="com.example.koopc.project.Bullet.BulletMsgActivity">
 
+    <!--제목 = 차지 화면 비율 1-->
     <TextView
         android:id="@+id/msg_nameText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#ffffff"/>
+        android:textColor="#ffffff"
+        android:layout_weight="1"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:gravity="center_vertical"/>
 
+    <!-- 글에 대한 정보 view = 차지 화면 비율 2 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:orientation="vertical">
+
+        <!--날짜와 작성자 = 차지 화면 비율 1-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="10">
+
+            <TextView
+                android:id="@+id/msg_dateTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="2"
+                android:textSize="10sp"
+                android:gravity="center_vertical"/>
+
+            <TextView
+                android:id="@+id/msg_writerTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="2"
+                android:textSize="10sp"
+                android:gravity="center_vertical"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="6"/>
+        </LinearLayout>
+
+        <!-- 조회수 / 좋아요 / 댓글 수 = 차지 화면 비율 1-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="10">
+
+            <TextView
+                android:id="@+id/msg_viewnumTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.2"
+                android:textSize="10sp"
+                android:gravity="center_vertical"/>
+
+            <TextView
+                android:id="@+id/msg_goodnumTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.2"
+                android:textSize="10sp"
+                android:gravity="center_vertical"/>
+
+            <TextView
+                android:id="@+id/msg_subnumTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.2"
+                android:textSize="10sp"
+                android:gravity="center_vertical"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="6.4" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#ffffff"/>
+
+
+    <!-- 해당 글 = 화면 차지 비율 6-->
     <TextView
         android:id="@+id/msg_contentText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#ffffff"/>
+        android:textColor="#ffffff"
+        android:layout_weight="6"
+        android:textSize="20sp"
+        />
+
+    <!-- 버튼 = 화면 차지 비율 1-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_weight="1">
+
+        <Button
+            android:id="@+id/msg_goodButton"
+            android:text="추천하기"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/msg_backButton"
+            android:text="목록으로"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/msg_subviewButton"
+            android:text="댓글보기"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
 </LinearLayout>
